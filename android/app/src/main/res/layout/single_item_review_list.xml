@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8sp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="4dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8sp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/ic_avatar_male"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/muli"
+            android:maxLines="1"
+            android:text="Muhammad Waqas Afzal "
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/ivEdit"
+            app:layout_constraintStart_toEndOf="@id/ivAvatar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvReviewDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="32dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/muli"
+            android:text="Lorem Ipsum is simply dummy text of the printing and  Lorem Ipsum is simply dummy text of the printing and t type settings in the industry"
+            android:textColor="@color/colorDarkGrey"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvUserName"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
+
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8sp"
+            android:drawableStart="@drawable/star"
+            android:drawablePadding="5sp"
+            android:fontFamily="@font/muli"
+            android:text="5.0"
+            android:tint="@color/buttonBackgroundColor"
+            android:textColor="@color/colorDarkGrey"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/ivAvatar"
+            app:layout_constraintStart_toStartOf="@id/ivAvatar"
+            app:layout_constraintTop_toBottomOf="@id/ivAvatar" />
+
+
+        <ImageView
+            android:id="@+id/ivEdit"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@drawable/edit"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/buttonBackgroundColor" />
+
+        <ImageView
+            android:id="@+id/ivDislike"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:layout_marginTop="10sp"
+            android:src="@drawable/dislike"
+            android:visibility="visible"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            app:layout_constraintEnd_toStartOf="@id/ivLike"
+            android:layout_marginEnd="@dimen/margin_8"
+            app:layout_constraintTop_toBottomOf="@+id/tvReviewDescription"
+            app:tint="@color/buttonBackgroundColor" />
+
+        <ImageView
+            android:id="@+id/ivLike"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/like"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvReviewDescription"
+            app:tint="@color/buttonBackgroundColor" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

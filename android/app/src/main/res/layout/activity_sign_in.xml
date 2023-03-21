@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".ui.registration.SignInActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingBottom="80sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="180sp"
+                android:layout_height="170sp"
+                android:layout_marginTop="60sp"
+                android:src="@drawable/ic_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTagLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:fontFamily="@font/muli"
+                android:text="@string/splash_tagline"
+                android:textColor="@color/colorLightGrey"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="@id/ivLogo"
+                app:layout_constraintStart_toStartOf="@id/ivLogo"
+                app:layout_constraintTop_toBottomOf="@id/ivLogo" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50sp"
+                android:layout_marginTop="45sp"
+                android:layout_marginEnd="50sp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivLogo">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@color/review_card_color"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!--        <View-->
+            <!--            android:id="@+id/viewEmail"-->
+            <!--            android:layout_width="0sp"-->
+            <!--            android:layout_height="2sp"-->
+            <!--            android:layout_marginStart="50sp"-->
+            <!--            android:layout_marginEnd="50sp"-->
+            <!--            android:background="@color/colorStroke"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/layoutEmail" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50sp"
+                android:layout_marginTop="16sp"
+
+                android:layout_marginEnd="50sp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutEmail">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/review_card_color"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--        <View-->
+            <!--            android:id="@+id/viewPassword"-->
+            <!--            android:layout_width="0sp"-->
+            <!--            android:layout_height="2sp"-->
+            <!--            android:layout_marginStart="50sp"-->
+            <!--            android:layout_marginEnd="50sp"-->
+            <!--            android:background="@color/colorStroke"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/layoutPassword" />-->
+
+            <Button
+                android:id="@+id/btnSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50sp"
+                android:layout_marginTop="30sp"
+                android:layout_marginEnd="50sp"
+
+                android:background="@drawable/bg_btn_yellow"
+                android:fontFamily="@font/muli"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="@string/sign_in"
+                android:textAllCaps="false"
+                android:textColor="@color/review_card_color"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutPassword" />
+
+            <TextView
+                android:id="@+id/tvForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:background="?attr/selectableItemBackground"
+                android:fontFamily="@font/muli_bold"
+                android:text="@string/forgot_password"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="@+id/btnSignIn"
+                app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/tvGuest"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="32sp"-->
+            <!--            android:fontFamily="@font/muli_bold"-->
+            <!--            android:text="@string/guest_continue"-->
+            <!--            android:textColor="@color/colorAccent"-->
+            <!--            android:textSize="13sp"-->
+            <!--            android:background="?attr/selectableItemBackground"-->
+            <!--            app:layout_constraintEnd_toEndOf="@+id/btnSignIn"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />-->
+
+            <TextView
+                android:id="@+id/tvNoAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
+                android:fontFamily="@font/muli_bold"
+                android:text="@string/no_account"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="@id/btnSignIn"
+                app:layout_constraintStart_toStartOf="@+id/btnSignIn"
+                app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
+
+            <Button
+                android:id="@+id/btnSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/bg_btn_blue"
+                android:fontFamily="@font/muli"
+                android:foreground="@drawable/card_foreground__dard_grey_rectangle"
+                android:text="@string/sign_up"
+
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                app:cornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNoAccount" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/blue_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingBottom="80sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/ic_avatar_male"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnMale"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_btn_yellow_left_half_round"
+                android:drawableStart="@drawable/ic_male_white"
+                android:drawablePadding="@dimen/margin_16"
+                android:fontFamily="@font/muli"
+                android:gravity="start|center"
+                android:paddingStart="@dimen/margin_16"
+                android:paddingEnd="@dimen/margin_16"
+                android:text="@string/male"
+                android:textAllCaps="false"
+                android:textColor="@color/review_card_color"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@+id/btnFemale"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+
+            <Button
+                android:id="@+id/btnFemale"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/bg_btn_white_right_half_round"
+                android:drawableStart="@drawable/ic_female_yellow"
+                android:drawablePadding="@dimen/margin_16"
+                android:fontFamily="@font/muli"
+                android:gravity="start|center"
+                android:paddingStart="@dimen/margin_16"
+                android:paddingEnd="@dimen/margin_16"
+                android:text="@string/female"
+                android:textAllCaps="false"
+                android:textColor="@color/review_card_color"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btnMale"
+                app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnMale">
+
+                <EditText
+                    android:id="@+id/edFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:hint="@string/first_name"
+                    android:maxLines="1"
+                    android:padding="5sp"
+                    android:textColor="@color/review_card_color"
+                    android:textSize="14dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <View-->
+<!--                android:id="@+id/viewFirstName"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="1.5dp"-->
+<!--                android:layout_marginStart="50dp"-->
+<!--                android:layout_marginEnd="50dp"-->
+<!--                android:background="@color/colorStroke"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/layoutFirstName" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutFirstName">
+
+                <EditText
+                    android:id="@+id/edLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:hint="@string/last_name"
+                    android:maxLines="1"
+                    android:padding="5sp"
+                    android:textColor="@color/review_card_color"
+                    android:textSize="14dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <View-->
+<!--                android:id="@+id/viewLastName"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="1.5dp"-->
+<!--                android:layout_marginStart="50dp"-->
+<!--                android:layout_marginEnd="50dp"-->
+<!--                android:background="@color/colorStroke"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/layoutLastName" />-->
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutLastName">
+
+                <EditText
+                    android:id="@+id/edPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:padding="5sp"
+                    android:textColor="@color/review_card_color"
+                    android:textSize="14dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <View-->
+<!--                android:id="@+id/viewPassword"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="1.5dp"-->
+<!--                android:layout_marginStart="50dp"-->
+<!--                android:layout_marginEnd="50dp"-->
+<!--                android:background="@color/colorStroke"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/layoutPassword" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutPassword">
+
+                <EditText
+                    android:id="@+id/edConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:padding="5sp"
+                    android:textColor="@color/review_card_color"
+                    android:textSize="14dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <View-->
+<!--                android:id="@+id/viewConfirmPassword"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="1.5dp"-->
+<!--                android:layout_marginStart="50dp"-->
+<!--                android:layout_marginEnd="50dp"-->
+<!--                android:background="@color/colorStroke"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/layoutConfirmPassword" />-->
+
+
+
+
+<!--            <View-->
+            <!--                android:id="@+id/viewREmail"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="1.5dp"-->
+            <!--                android:layout_marginStart="50dp"-->
+            <!--                android:layout_marginEnd="50dp"-->
+            <!--                android:background="@color/colorStroke"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/layoutREmail" />-->
+
+            <Button
+                android:foreground="?android:attr/selectableItemBackground"
+                android:id="@+id/btnSignup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/bg_btn_yellow"
+                android:fontFamily="@font/muli"
+                android:text="@string/sign_up"
+                android:textColor="@color/review_card_color"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutConfirmPassword" />
+
+            <TextView
+                android:id="@+id/tvHaveAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="?attr/selectableItemBackground"
+                android:fontFamily="@font/muli_bold"
+                android:text="@string/already_hav_account"
+                android:textColor="@color/colorBlack"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btnSignup"
+                app:layout_constraintStart_toStartOf="@+id/btnSignup"
+                app:layout_constraintTop_toBottomOf="@+id/btnSignup" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>
