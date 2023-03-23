@@ -33,35 +33,65 @@ function registerUser($userData)
 {
     global $conn;
 
-    $firstName = mysqli_real_escape_string($conn, $userData['firstName']);
-    $lastName = mysqli_real_escape_string($conn, $userData['lastName']);
-    $email = mysqli_real_escape_string($conn, $userData['email']);
-    $password = mysqli_real_escape_string($conn, $userData['password']);
-    $confirmPassowrd = mysqli_real_escape_string($conn, $userData['confirmPassword']);
+    $firstName = $userData['firstName'];
+    $lastName =  $userData['lastName'];
+    $email = $userData['email'];
+    $password =  $userData['password'];
+    $confirmPassowrd = $userData['confirmPassword'];
+    $isAdmin = $userData['admin'];
+    $gender = $userData['gender'];
+
 
     if (empty(trim($firstName))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "First name is required");
+        return response("422", "HTTP/1.0 422 First name is required", "First name is required");
     } else if (empty(trim($lastName))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Last name is required");
+        return response("422", "HTTP/1.0 422 Last name is required", "Last name is required");
     } else if (empty(trim($email))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Email is required");
+        return response("422", "HTTP/1.0 422 Email is required", "Email is required");
     } else if (empty(trim($password))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Password is required");
+        return response("422", "HTTP/1.0 422 Password is required", "Password is required");
     } else if (empty(trim($confirmPassowrd))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Confirm password is required");
+        return response("422", "HTTP/1.0 422 Confirm password is required", "Confirm password is required");
     } else if ((trim($password)) !== trim($confirmPassowrd)) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Passwords do not match");
-    } else {
+        return response("422", "HTTP/1.0 422 Passwords do not match", "Passwords do not match");
+    } 
+    // else if (empty(trim((string)$gender))) {
+    //     return response("422", "HTTP/1.0 422 Gender is required", "Gender is required");
+    // }else if (empty(trim((string)$isAdmin))) {
+    //     return response("422", "HTTP/1.0 422 Admin is required", "Admin is required");
+    // }
+    else {
         $userExits = "SELECT * FROM Users WHERE email = '$email'";
         $query_run = $conn->query($userExits);
         if (mysqli_num_rows($query_run) > 0) {
-            return response("404", "HTTP/1.0 404 Duplicate", "Email Already Exits");
+            $data = [
+                'status' => 404,
+                'message' => "Email Already Exits",
+            ];
+            header("HTTP/1.0 404 Email Already Exits");
+            return json_encode($data);
+
         } else {
-            $query = "INSERT INTO Users (FirstName,LastName,Password,Email)
-            VALUES ('$firstName','$lastName','$password','$email')";
+            $query = "INSERT INTO Users (FirstName,LastName,Password,Email,Gender,Admin)
+            VALUES ('$firstName','$lastName','$password','$email','$gender','$isAdmin')";
             $query_run = mysqli_query($conn, $query);
             if ($query_run) {
-                return response("201", "HTTP/1.0 201 Created", "User Registered Successfully");
+                $query = "SELECT * FROM Users WHERE email = '$email' AND password = '$password'";
+                // $result = $conn -> query($userExits);
+                $result = mysqli_query($conn, $query);
+                if ($result) {
+                    $res = mysqli_fetch_assoc($result);
+                    $data = [
+                        'status' => 201,
+                        'message' => "User Registered Successfully",
+                        'data' => $res
+                    ];
+                    header("HTTP/1.0 201 Success");
+                    return json_encode($data);
+                } else {
+                    return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
+                }
+                // return response("201", "HTTP/1.0 201 Created", "User Registered Successfully");
             } else {
                 return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
             }
@@ -97,7 +127,12 @@ function loginUser($userData)
                 header("HTTP/1.0 200 Success");
                 return json_encode($data);
             } else {
-                return response("201", "HTTP/1.0 401 Unauthorized", "Invalid username or password");
+                $data = [
+                    'status' => 401,
+                    'message' => "Invalid username or password",
+                ];
+                header("HTTP/1.0 401 Unauthorized");
+                return json_encode($data);
             }
         } else {
             return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
@@ -129,12 +164,12 @@ function resetPassword($userData)
             $query = "UPDATE `Users` SET `Password`='$password' WHERE Email = '$email'";
             $query_run = mysqli_query($conn, $query);
             if ($query_run) {
-                return response("200", "HTTP/1.0 201 Created", "Password Updated Successfully");
+                return response("200", "Password Updated Successfully", "Password Updated Successfully");
             } else {
-                return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
+                return response("500", "Internal Server Error", "Internal Server Error");
             }
         } else {
-            return response("404", "HTTP/1.0 404 Duplicate", "Invalid Email");
+            return response("404", "HTTP/1.0 404 Invalid Email", "Invalid Email");
         }
     }
 }

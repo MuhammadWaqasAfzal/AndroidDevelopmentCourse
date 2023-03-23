@@ -11,12 +11,12 @@ include('utility.php');
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-if ($requestMethod == "POST") {
-    $inputData = json_decode(file_get_contents("php://input"), true);
+if ($requestMethod == "GET") {
+   // $inputData = json_decode(file_get_contents("php://input"), true);
     if (empty($inputData)) {
-       $reviews =  getAllReviews($_POST);
+       $reviews =  getAllReviews();
     } else {
-        $reviews = getAllReviews($inputData);
+        $reviews = getAllReviews();
     }
     echo $reviews;
    
