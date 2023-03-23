@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <include layout="@layout/blue_toolbar" />
+<!--    <include layout="@layout/blue_toolbar" />-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -131,6 +131,30 @@
                     android:textSize="14dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutLastName">
+
+                <EditText
+                    android:id="@+id/edEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:hint="@string/email"
+                    android:maxLines="1"
+                    android:padding="5sp"
+                    android:textColor="@color/review_card_color"
+                    android:textSize="14dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 <!--            <View-->
 <!--                android:id="@+id/viewLastName"-->
@@ -154,7 +178,7 @@
                 app:boxBackgroundMode="outline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutLastName">
+                app:layout_constraintTop_toBottomOf="@+id/layoutEmail">
 
                 <EditText
                     android:id="@+id/edPassword"
@@ -269,4 +293,7 @@
 
     </ScrollView>
 
-</LinearLayout>
+    <include layout="@layout/spinner"
+        android:visibility="gone"
+        android:id="@+id/spinner"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

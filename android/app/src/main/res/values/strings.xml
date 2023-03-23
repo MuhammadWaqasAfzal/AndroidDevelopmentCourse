@@ -14,7 +14,7 @@
     <string name="change_password">Proceed to Change Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="email_verification">Email Verification</string>
-    <string name="otp_instruction">Please enter the 6 digit verification code sent on email %s</string>
+    <string name="otp_instruction">Please enter the 6 digit verification code sent on your email.</string>
     <string name="lbl_verify">Verify</string>
     <string name="lbl_send_otp">Send OTP</string>
     <string name="lbl_not_receive_code">Didn\'t received the code?&#160;<u><font color='#70A6F2'>Resend Code</font></u></string>
@@ -53,6 +53,16 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="password_required">Password is required</string>
+    <string name="password_donot_match">Passwords donot match</string>
+    <string name="confirm_password_required">Confirm password is required</string>
+    <string name="first_name_required">First name is required</string>
+    <string name="last_name_required">Last name is required</string>
+    <string name="email_required">Email is required</string>
+    <string name="email_invalid">Invalid email</string>
+    <string name="error_general">Something went wrong. Please try again</string>
+    <string name="lbl_no_internet">Check your internet connection.</string>
+    <string name="welcome">WELCOME</string>
 
 
 </resources>

@@ -13,9 +13,9 @@
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingBottom="80sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="80sp">
 
             <ImageView
                 android:id="@+id/ivLogo"
@@ -52,7 +52,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivLogo">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/edEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutEmail">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/edPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -193,4 +193,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <include layout="@layout/spinner"
+        android:visibility="gone"
+        android:id="@+id/spinner"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
