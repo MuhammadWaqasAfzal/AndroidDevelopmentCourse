@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
+
     android:orientation="vertical"
-    tools:context=".MainActivity2">
+    tools:context=".MainActivity">
 
 <!--    <include-->
 <!--        layout="@layout/white_toolbar"-->
@@ -16,7 +17,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="140sp"
+        android:layout_height="180sp"
         android:layout_marginTop="0dp"
         android:background="@drawable/bg_header_app_color"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,8 +26,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:elevation="50dp"
-        android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
+        android:paddingBottom="10dp"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
         android:id="@+id/rvReviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,6 +36,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include layout="@layout/spinner"
+        android:visibility="gone"
+        android:id="@+id/spinner"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,4 +24,7 @@
     <color name="iconTintColorGray">#9e9e9e</color>
     <color name="buttonBackgroundColor">#2A3749</color>
     <color name="background_color">#EEEEEE</color>
+    <color name="text_Color">#111115</color>
+    <color name="ed_background">#EAECF3</color>
+
 </resources>

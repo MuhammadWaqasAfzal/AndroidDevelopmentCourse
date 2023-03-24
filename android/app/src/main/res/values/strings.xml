@@ -59,10 +59,17 @@
     <string name="first_name_required">First name is required</string>
     <string name="last_name_required">Last name is required</string>
     <string name="email_required">Email is required</string>
+    <string name="lbl_edit">Edit</string>
     <string name="email_invalid">Invalid email</string>
     <string name="error_general">Something went wrong. Please try again</string>
     <string name="lbl_no_internet">Check your internet connection.</string>
     <string name="welcome">WELCOME</string>
+    <string name="lbl_publish">PUBLISH</string>
+    <string name="create_review">Create Review</string>
+    <string name="edit_review">Edit Review</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="description"> Description</string>
+    <string name="lbl_description"> Description cannot be empty.</string>
 
 
 </resources>

@@ -129,7 +129,7 @@ class SignInActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<Login>, t: Throwable) {
                 loader(activity,spinner, false);
-                Toast.makeText(applicationContext,"failure",Toast.LENGTH_LONG).show();
+                showSnackBar(activity, activity.getString(R.string.error_general));
 
             }
         })

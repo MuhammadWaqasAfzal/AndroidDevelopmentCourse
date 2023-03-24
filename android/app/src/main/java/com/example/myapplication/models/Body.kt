@@ -23,3 +23,18 @@ data class ResetPassword(
     @SerializedName("password") val password: String?,
     @SerializedName("confirmPassword") val confirmPassword: String?,
 )
+
+data class CreateReview(
+    @SerializedName("email") val email: String,
+    @SerializedName("description") val password: String?,
+)
+data class EditReview(
+    @SerializedName("email") val email: String,
+    @SerializedName("id") val id: Int?,
+    @SerializedName("description") val password: String?,
+)
+
+data class LikeDisLikeReview(
+    @SerializedName("email") val email: String,
+    @SerializedName("id") val password: Int?,
+)

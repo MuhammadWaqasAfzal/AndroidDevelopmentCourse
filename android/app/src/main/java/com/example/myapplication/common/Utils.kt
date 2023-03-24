@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
+import com.example.myapplication.ui.review.ReviewFragment
 import com.google.android.material.snackbar.Snackbar
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -90,5 +91,10 @@ fun showSnackBar(context: Context,message:String) {
     snackbar.show();
 }
 
+fun refreshReviewsList(reviewFragment: ReviewFragment)
+{
+    reviewFragment.callApiToGetReviews()
+
+}
 
 

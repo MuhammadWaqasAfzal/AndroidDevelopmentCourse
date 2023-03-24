@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
         )
         Handler().postDelayed({
 
-            if (getSpObject(this)?.getBoolean(Constants.LoggedIn,false) == false) {
+            if (getSpObject(this)?.getBoolean(Constants.LoggedIn,false) == true) {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
