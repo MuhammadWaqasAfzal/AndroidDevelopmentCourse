@@ -16,7 +16,7 @@ if ($requestMethod == "POST") {
     if (empty($inputData)) {
         likeReview($_POST);
     } else {
-         resetPassword($inputData);
+        likeReview($inputData);
     }
    
 } else {

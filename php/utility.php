@@ -107,9 +107,9 @@ function loginUser($userData)
     $password = mysqli_real_escape_string($conn, $userData['password']);
 
     if (empty(trim($email))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Email is required");
+        return response("422", "HTTP/1.0 422 Email is required", "Email is required");
     } else if (empty(trim($password))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Password is required");
+        return response("422", "HTTP/1.0 422 Password is required", "Password is required");
     } else {
         $query = "SELECT * FROM Users WHERE email = '$email' AND password = '$password'";
         // $result = $conn -> query($userExits);
@@ -149,13 +149,13 @@ function resetPassword($userData)
     $confirmPassowrd = mysqli_real_escape_string($conn, $userData['confirmPassword']);
 
     if (empty(trim($email))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Email is required");
+        return response("422", "HTTP/1.0 422 Email is required", "Email is required");
     } else if (empty(trim($password))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Password is required");
+        return response("422", "HTTP/1.0 422 Password is required", "Password is required");
     } else if (empty(trim($confirmPassowrd))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Confirm password is required");
+        return response("422", "HTTP/1.0 422 Confirm password is required", "Confirm password is required");
     } else if ((trim($password)) !== trim($confirmPassowrd)) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Passwords do not match");
+        return response("422", "HTTP/1.0 422 Passwords do not match", "Passwords do not match");
     } else {
         $userExits = "SELECT * FROM Users WHERE email = '$email'";
         $query_run = $conn->query($userExits);
@@ -181,25 +181,30 @@ function addReview($userData)
 
     $description = mysqli_real_escape_string($conn, $userData['description']);
     $email = mysqli_real_escape_string($conn, $userData['email']);
+    // $userName = mysqli_real_escape_string($conn, $userData['userName']);
+    // $id = mysqli_real_escape_string($conn, $userData['id']);
     $likes = 0;
     $disLikes = 0;
     date_default_timezone_set('London');
     $date = date('m/d/Y h:i:s a', time());
 
     if (empty(trim($email))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Email is required");
+        return response("422", "HTTP/1.0 422 Email is required", "Email is required");
     } else if (empty(trim($description))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Reviews description cannot be empty");
+        return response("422", "HTTP/1.0 422 Reviews description cannot be empty", "Reviews description cannot be empty");
     } else {
         $userExits = "SELECT * FROM Users WHERE email = '$email'";
         $query_run = $conn->query($userExits);
         if (mysqli_num_rows($query_run) > 0) {
-
-            $query = "INSERT INTO Reviews (Description,Email,Likes,Dislikes,DateAndTime)
-            VALUES ('$description','$email','$likes','$disLikes','$date')";
+            $res = mysqli_fetch_assoc($query_run);
+          
+            $userName = (string)$res["FirstName"] . " ". (string) $res["LastName"];
+            $userId = $res["Id"];
+            $query = "INSERT INTO Reviews (Description,Email,Likes,Dislikes,DateAndTime,UserName,UserId)
+            VALUES ('$description','$email','$likes','$disLikes','$date' , '$userName','$userId')";
             $query_run = mysqli_query($conn, $query);
             if ($query_run) {
-                return response("201", "HTTP/1.0 201 Created", "Review created Successfully");
+                return response("201", "HTTP/1.0 201 Review created Successfully", "Review created Successfully");
             } else {
                 return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
             }
@@ -220,16 +225,16 @@ function updateReview($userData)
     $date = date('m/d/Y h:i:s a', time());
 
     if (empty(trim($email))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Email is required");
+        return response("422", "HTTP/1.0 422 Email is required", "Email is required");
     } else if (empty(trim($description))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Reviews description cannot be empty");
+        return response("422", "HTTP/1.0 422 Reviews description cannot be empty", "Reviews description cannot be empty");
     } else if (empty(trim($id))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Review id is required");
+        return response("422", "HTTP/1.0 422 Review id is required", "Review id is required");
     } else {
         $query = "UPDATE `Reviews` SET `Description`='$description' ,`DateAndTime`='$date' WHERE Id = '$id'";
         $query_run = mysqli_query($conn, $query);
         if ($query_run) {
-            return response("200", "HTTP/1.0 201 Created", "Review Updated Successfully");
+            return response("200", "HTTP/1.0 200 Review Updated Successfully", "Review Updated Successfully");
         } else {
             return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
         }
@@ -244,9 +249,9 @@ function likeReview($userData)
     $id = mysqli_real_escape_string($conn, $userData['id']);
 
     if (empty(trim($email))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Email is required");
+        return response("422", "HTTP/1.0 422 Email is required", "Email is required");
     } else if (empty(trim($id))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Id is required");
+        return response("422", "HTTP/1.0 422 Id is required", "Id is required");
     } else {
         $reviewExit = "SELECT * FROM Reviews WHERE id = '$id'";
         $query_run = $conn->query($reviewExit);
@@ -257,7 +262,7 @@ function likeReview($userData)
             $query = "UPDATE `Reviews` SET `Likes`='$likes' WHERE Id = '$id'";
             $query_run = mysqli_query($conn, $query);
             if ($query_run) {
-                return response("200", "HTTP/1.0 201 Created", "Review Liked Successfully");
+                return response("200", "HTTP/1.0 200 Review Liked Successfully", "Review Liked Successfully");
             } else {
                 return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
             }
@@ -275,9 +280,9 @@ function disLikeReview($userData)
     $id = mysqli_real_escape_string($conn, $userData['id']);
 
     if (empty(trim($email))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Email is required");
+        return response("422", "HTTP/1.0 422 Email is required", "Email is required");
     } else if (empty(trim($id))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Id is required");
+        return response("422", "HTTP/1.0 422 Id is required", "Id is required");
     } else {
         $reviewExit = "SELECT * FROM Reviews WHERE id = '$id'";
         $query_run = $conn->query($reviewExit);
@@ -288,7 +293,7 @@ function disLikeReview($userData)
             $query = "UPDATE `Reviews` SET `Dislikes`='$disLikes' WHERE Id = '$id'";
             $query_run = mysqli_query($conn, $query);
             if ($query_run) {
-                return response("200", "HTTP/1.0 201 Created", "Review DisLiked Successfully");
+                return response("200", "HTTP/1.0 200 Review DisLiked Successfully", "Review DisLiked Successfully");
             } else {
                 return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
             }
@@ -306,9 +311,9 @@ function deleteReview($userData)
     $id = mysqli_real_escape_string($conn, $userData['id']);
 
     if (empty(trim($email))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Email is required");
+        return response("422", "HTTP/1.0 422 Email is required", "Email is required");
     } else if (empty(trim($id))) {
-        return response("422", "HTTP/1.0 422 Data Validation", "Id is required");
+        return response("422", "HTTP/1.0 422 Id is required", "Id is required");
     } else {
         $reviewExit = "SELECT * FROM Reviews WHERE id = '$id'";
         $query_run = $conn->query($reviewExit);
