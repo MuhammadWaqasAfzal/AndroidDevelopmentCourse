@@ -14,9 +14,9 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 if ($requestMethod == "POST") {
     $inputData = json_decode(file_get_contents("php://input"), true);
     if (empty($inputData)) {
-        likeReview($_POST);
+        likeDisLikeReview($_POST);
     } else {
-        likeReview($inputData);
+        likeDisLikeReview($inputData);
     }
    
 } else {

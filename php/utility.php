@@ -54,7 +54,7 @@ function registerUser($userData)
         return response("422", "HTTP/1.0 422 Confirm password is required", "Confirm password is required");
     } else if ((trim($password)) !== trim($confirmPassowrd)) {
         return response("422", "HTTP/1.0 422 Passwords do not match", "Passwords do not match");
-    } 
+    }
     // else if (empty(trim((string)$gender))) {
     //     return response("422", "HTTP/1.0 422 Gender is required", "Gender is required");
     // }else if (empty(trim((string)$isAdmin))) {
@@ -70,7 +70,6 @@ function registerUser($userData)
             ];
             header("HTTP/1.0 404 Email Already Exits");
             return json_encode($data);
-
         } else {
             $query = "INSERT INTO Users (FirstName,LastName,Password,Email,Gender,Admin)
             VALUES ('$firstName','$lastName','$password','$email','$gender','$isAdmin')";
@@ -197,8 +196,8 @@ function addReview($userData)
         $query_run = $conn->query($userExits);
         if (mysqli_num_rows($query_run) > 0) {
             $res = mysqli_fetch_assoc($query_run);
-          
-            $userName = (string)$res["FirstName"] . " ". (string) $res["LastName"];
+
+            $userName = (string)$res["FirstName"] . " " . (string) $res["LastName"];
             $userId = $res["Id"];
             $query = "INSERT INTO Reviews (Description,Email,Likes,Dislikes,DateAndTime,UserName,UserId)
             VALUES ('$description','$email','$likes','$disLikes','$date' , '$userName','$userId')";
@@ -241,28 +240,76 @@ function updateReview($userData)
     }
 }
 
-function likeReview($userData)
+function likeDisLikeReview($userData)
 {
     global $conn;
 
     $email = mysqli_real_escape_string($conn, $userData['email']);
-    $id = mysqli_real_escape_string($conn, $userData['id']);
+    $reviewId = $userData['reviewId'];
+    $userId = $userData['userId'];
+    $reaction = $userData['reaction'];
 
     if (empty(trim($email))) {
         return response("422", "HTTP/1.0 422 Email is required", "Email is required");
-    } else if (empty(trim($id))) {
+    } else if (empty(trim($reviewId))) {
         return response("422", "HTTP/1.0 422 Id is required", "Id is required");
     } else {
-        $reviewExit = "SELECT * FROM Reviews WHERE id = '$id'";
+       
+        $reviewExit = "SELECT * FROM Reviews WHERE id = '$reviewId'";
         $query_run = $conn->query($reviewExit);
 
         if (mysqli_num_rows($query_run) > 0) {
             $res = mysqli_fetch_assoc($query_run);
-            $likes = $res["Likes"] + 1;
-            $query = "UPDATE `Reviews` SET `Likes`='$likes' WHERE Id = '$id'";
-            $query_run = mysqli_query($conn, $query);
+            $queryAllreadyreacted = "SELECT * FROM LikesDisLikes Where UserID= '$userId' AND ReviewId = '$reviewId'";
+            $query_run_all_ready_reacted = mysqli_query($conn, $queryAllreadyreacted);
+            if (mysqli_num_rows($query_run_all_ready_reacted) > 0) {
+                //$res = mysqli_fetch_assoc($query_run_all_ready_reacted);
+                if ($reaction == 1) {
+                    $dislikes = $res["Dislikes"] - 1;
+                    $query = "UPDATE `Reviews` SET `Dislikes`='$dislikes' WHERE Id = '$reviewId'";
+                    $query_run = mysqli_query($conn, $query);
+                    $likes = $res["Likes"] + 1;
+                    $query = "UPDATE `Reviews` SET `Likes`='$likes' WHERE Id = '$reviewId'";
+                    $query_run = mysqli_query($conn, $query);
+
+                } else {
+                    $likes = $res["Likes"] - 1;
+                    $query = "UPDATE `Reviews` SET `Likes`='$likes' WHERE Id = '$reviewId'";
+                    $query_run = mysqli_query($conn, $query);
+                    $dislikes = $res["Dislikes"] + 1;
+                    $query = "UPDATE `Reviews` SET `Dislikes`='$dislikes' WHERE Id = '$reviewId'";
+                    $query_run = mysqli_query($conn, $query);
+                }
+            }
+            else{
+                if ($reaction == 1) {
+                    $likes = $res["Likes"] + 1;
+                    $query = "UPDATE `Reviews` SET `Likes`='$likes' WHERE Id = '$reviewId'";
+                    $query_run = mysqli_query($conn, $query);
+
+                } else {
+                    $dislikes = $res["Dislikes"] + 1;
+                    $query = "UPDATE `Reviews` SET `Dislikes`='$dislikes' WHERE Id = '$reviewId'";
+                    $query_run = mysqli_query($conn, $query);
+                }
+            }
+    
             if ($query_run) {
-                return response("200", "HTTP/1.0 200 Review Liked Successfully", "Review Liked Successfully");
+                $query = "SELECT * FROM LikesDisLikes Where `UserId`= '$userId' AND `ReviewId` = '$reviewId'";
+                $query_run = mysqli_query($conn, $query);
+                
+                if (mysqli_num_rows($query_run) > 0) {
+                    $query = "UPDATE `LikesDisLikes`  SET `Reaction`='$reaction' WHERE `UserId`='$userId' AND `ReviewId` = '$reviewId' ";
+                    $query_run = mysqli_query($conn, $query);
+
+                } else {
+                    $query =  "INSERT INTO LikesDisLikes (UserId,Reaction,ReviewId) VALUES ('$userId','$reaction',$reviewId)";
+                    $query_run = mysqli_query($conn, $query);
+                }
+                if ($reaction == 1)
+                    return response("200", "HTTP/1.0 200 Review Liked Successfully", "Review Liked Successfully");
+                else
+                    return response("200", "HTTP/1.0 200 Review Liked Successfully", "Review DisLiked Successfully");
             } else {
                 return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
             }
@@ -277,22 +324,25 @@ function disLikeReview($userData)
     global $conn;
 
     $email = mysqli_real_escape_string($conn, $userData['email']);
-    $id = mysqli_real_escape_string($conn, $userData['id']);
+    $reviewId = mysqli_real_escape_string($conn, $userData['reviewId']);
+    $userId = mysqli_real_escape_string($conn, $userData['userId']);
 
     if (empty(trim($email))) {
         return response("422", "HTTP/1.0 422 Email is required", "Email is required");
-    } else if (empty(trim($id))) {
+    } else if (empty(trim($reviewId))) {
         return response("422", "HTTP/1.0 422 Id is required", "Id is required");
     } else {
-        $reviewExit = "SELECT * FROM Reviews WHERE id = '$id'";
+        $reviewExit = "SELECT * FROM Reviews WHERE id = '$reviewId'";
         $query_run = $conn->query($reviewExit);
 
         if (mysqli_num_rows($query_run) > 0) {
             $res = mysqli_fetch_assoc($query_run);
             $disLikes = $res["Dislikes"] + 1;
-            $query = "UPDATE `Reviews` SET `Dislikes`='$disLikes' WHERE Id = '$id'";
+            $query = "UPDATE `Reviews` SET `Dislikes`='$disLikes' WHERE Id = '$reviewId'";
             $query_run = mysqli_query($conn, $query);
             if ($query_run) {
+                $query =  "INSERT INTO LikesDisLikes (UserId,Reaction) VALUES ('$reviewId',0)";
+                $query_run = mysqli_query($conn, $query);
                 return response("200", "HTTP/1.0 200 Review DisLiked Successfully", "Review DisLiked Successfully");
             } else {
                 return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
