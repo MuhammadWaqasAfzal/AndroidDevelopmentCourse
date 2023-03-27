@@ -6,7 +6,8 @@ include('dbcon.php');
 function getUsersList()
 {
     global $conn;
-    $query = "SELECT * FROM Users";
+
+    $query = "SELECT * FROM Users ";
     $query_run = mysqli_query($conn, $query);
     if ($query_run) {
         if (mysqli_num_rows($query_run) > 0) {
@@ -213,6 +214,35 @@ function addReview($userData)
     }
 }
 
+
+function sendMessage($userData)
+{
+    global $conn;
+
+    $text = $userData['text'];
+    $senderId = $userData['senderId'];
+    $receiverId =  $userData['receiverId'];
+    date_default_timezone_set('London');
+    $date = date('m/d/Y h:i:s a', time());
+
+    if (empty((trim($text)))) {
+        return response("422", "HTTP/1.0 422 Message cannot be empty.", "Message cannot be empty");
+    } else if (empty(trim((string)$senderId))) {
+        return response("422", "HTTP/1.0 422 SenderId cannot be empty", "SenderId cannot be empty");
+    } else if (empty(trim((string)$receiverId))) {
+        return response("422", "HTTP/1.0 422 ReceiverId cannot be empty", "ReceiverId cannot be empty");
+    } else {
+        $query = "INSERT INTO Messages (SenderId,ReceiverId,TextMessage,DateAndTime)
+            VALUES ('$senderId','$receiverId','$text','$date' )";
+        $query_run = mysqli_query($conn, $query);
+        if ($query_run) {
+            return response("201", "HTTP/1.0 201 Message sent Successfully", "Message sent Successfully");
+        } else {
+            return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
+        }
+    }
+}
+
 function updateReview($userData)
 {
     global $conn;
@@ -254,7 +284,7 @@ function likeDisLikeReview($userData)
     } else if (empty(trim($reviewId))) {
         return response("422", "HTTP/1.0 422 Id is required", "Id is required");
     } else {
-       
+
         $reviewExit = "SELECT * FROM Reviews WHERE id = '$reviewId'";
         $query_run = $conn->query($reviewExit);
 
@@ -271,7 +301,6 @@ function likeDisLikeReview($userData)
                     $likes = $res["Likes"] + 1;
                     $query = "UPDATE `Reviews` SET `Likes`='$likes' WHERE Id = '$reviewId'";
                     $query_run = mysqli_query($conn, $query);
-
                 } else {
                     $likes = $res["Likes"] - 1;
                     $query = "UPDATE `Reviews` SET `Likes`='$likes' WHERE Id = '$reviewId'";
@@ -280,28 +309,25 @@ function likeDisLikeReview($userData)
                     $query = "UPDATE `Reviews` SET `Dislikes`='$dislikes' WHERE Id = '$reviewId'";
                     $query_run = mysqli_query($conn, $query);
                 }
-            }
-            else{
+            } else {
                 if ($reaction == 1) {
                     $likes = $res["Likes"] + 1;
                     $query = "UPDATE `Reviews` SET `Likes`='$likes' WHERE Id = '$reviewId'";
                     $query_run = mysqli_query($conn, $query);
-
                 } else {
                     $dislikes = $res["Dislikes"] + 1;
                     $query = "UPDATE `Reviews` SET `Dislikes`='$dislikes' WHERE Id = '$reviewId'";
                     $query_run = mysqli_query($conn, $query);
                 }
             }
-    
+
             if ($query_run) {
                 $query = "SELECT * FROM LikesDisLikes Where `UserId`= '$userId' AND `ReviewId` = '$reviewId'";
                 $query_run = mysqli_query($conn, $query);
-                
+
                 if (mysqli_num_rows($query_run) > 0) {
                     $query = "UPDATE `LikesDisLikes`  SET `Reaction`='$reaction' WHERE `UserId`='$userId' AND `ReviewId` = '$reviewId' ";
                     $query_run = mysqli_query($conn, $query);
-
                 } else {
                     $query =  "INSERT INTO LikesDisLikes (UserId,Reaction,ReviewId) VALUES ('$userId','$reaction',$reviewId)";
                     $query_run = mysqli_query($conn, $query);
@@ -404,6 +430,95 @@ function getAllReviews()
         return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
     }
 }
+
+
+function getAllUsers($data)
+{
+    global $conn;
+    $userId = mysqli_real_escape_string($conn, $data['userId']);
+    $query = "SELECT * FROM Users Where id!='$userId'";
+    $query_run = mysqli_query($conn, $query);
+
+    if ($query_run) {
+        $res = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+        
+        for ($x = 0; $x < count($res); $x++) {
+            $row = $res[$x];
+            $senderId =  $row['SenderId'];
+            $receiverId =  $row['ReceiverId'];
+            $query = "SELECT * FROM Users where Id='$senderId' ";
+            $query_run = mysqli_query($conn, $query);
+            $userRes = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+            $res[$x]["SenderName"] =  $userRes[0]["FirstName"] ." ". $userRes[0]["LastName"] ;
+            $res[$x]["SenderGender"] =  $userRes[0]["Gender"];
+
+            $query = "SELECT * FROM Users where Id='$receiverId' ";
+            $query_run = mysqli_query($conn, $query);
+            $userRes = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+            $res[$x]["ReceiverName"] =  $userRes[0]["FirstName"] . " ".$userRes[0]["LastName"] ;
+            $res[$x]["ReceiverGender"] =  $userRes[0]["Gender"];
+
+
+        }
+
+        $data = [
+            'status' => 200,
+            'message' => "All Users",
+            'data' => $res
+        ];
+        header("HTTP/1.0 200 Success");
+        return json_encode($data);
+    } else {
+        return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
+    }
+}
+
+function getAllMessages($data)
+{
+    global $conn;
+    $senderId = mysqli_real_escape_string($conn, $data['userId']);
+    if(empty(trim($senderId)))
+        $query = "SELECT * FROM Messages ";
+    else
+        $query = "SELECT * FROM Messages where SenderId='$senderId' OR ReceiverId='$senderId' ";
+    $query_run = mysqli_query($conn, $query);
+
+    if ($query_run) {
+        $res = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+
+       
+        for ($x = 0; $x < count($res); $x++) {
+            $row = $res[$x];
+            $senderId =  $row['SenderId'];
+            $receiverId =  $row['ReceiverId'];
+            $query = "SELECT * FROM Users where Id='$senderId' ";
+            $query_run = mysqli_query($conn, $query);
+            $userRes = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+            $res[$x]["SenderName"] =  $userRes[0]["FirstName"] ." ". $userRes[0]["LastName"] ;
+            $res[$x]["SenderGender"] =  $userRes[0]["Gender"];
+
+            $query = "SELECT * FROM Users where Id='$receiverId' ";
+            $query_run = mysqli_query($conn, $query);
+            $userRes = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+            $res[$x]["ReceiverName"] =  $userRes[0]["FirstName"] . " ".$userRes[0]["LastName"] ;
+            $res[$x]["ReceiverGender"] =  $userRes[0]["Gender"];
+
+
+        }
+     
+        $data = [
+            'status' => 200,
+            'message' => "All Messages",
+            'data' => $res
+        ];
+        header("HTTP/1.0 200 Success");
+        return json_encode($data);
+    } else {
+        return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
+    }
+}
+
+
 
 
 function response($statusCode, $header, $message)
