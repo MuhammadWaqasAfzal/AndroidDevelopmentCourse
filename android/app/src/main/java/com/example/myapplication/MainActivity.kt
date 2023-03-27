@@ -24,7 +24,7 @@ import com.example.myapplication.common.loader
 import com.example.myapplication.common.showSnackBar
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.models.CreateReview
-import com.example.myapplication.ui.api.MyApi
+import com.example.myapplication.api.MyApi
 import com.example.myapplication.ui.review.ReviewFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
@@ -65,11 +65,13 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_message, R.id.nav_slideshow
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        Constants.fab = binding.appBarMain.fabNewReview;
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

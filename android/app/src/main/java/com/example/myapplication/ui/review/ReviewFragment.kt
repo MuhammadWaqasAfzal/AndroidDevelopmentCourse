@@ -21,7 +21,7 @@ import com.example.myapplication.common.showSnackBar
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.models.EditReview
 import com.example.myapplication.models.LikeDisLikeReview
-import com.example.myapplication.ui.api.MyApi
+import com.example.myapplication.api.MyApi
 import com.example.review.Data
 import com.example.review.Review
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -200,7 +200,7 @@ class ReviewFragment : Fragment() {
                 showSnackBar(activity, response.message());
                 if (response.code() == 200) {
                     user.Description = description
-                    adapter?.updateSingleCell(user, position)
+                    adapter?.updateSingleCell(user, position, Constants.Edit)
                 }
                 // Toast.makeText(this@SignInActivity,res?.message.toString(),Toast.LENGTH_LONG).show()
             }
@@ -229,8 +229,8 @@ class ReviewFragment : Fragment() {
             .build()
 
         val api = retrofit.create(MyApi::class.java);
-        var data = LikeDisLikeReview(user.Email.toString(), user.Id?.toInt());
-        val call = api.dislikeReview(data)
+        var data = LikeDisLikeReview(user.Email.toString(), user.Id?.toInt(),user.UserId?.toInt(),0);
+        val call = api.likeDislikeReview(data)
         call?.enqueue(object : Callback<GeneralResponse> {
             override fun onResponse(
                 call: Call<GeneralResponse>,
@@ -239,7 +239,7 @@ class ReviewFragment : Fragment() {
                 if (response.code() == 200) {
                     val res = response.body()
                     user.Dislikes = (user.Dislikes!!.toInt() + 1).toString()
-                    adapter?.updateSingleCell(user, position)
+                    adapter?.updateSingleCell(user, position, Constants.DisLike)
                 }
                 showSnackBar(activity, response.body()?.message.toString());
             }
@@ -264,8 +264,8 @@ class ReviewFragment : Fragment() {
             .build()
 
         val api = retrofit.create(MyApi::class.java);
-        var data = LikeDisLikeReview(user.Email.toString(), user.Id?.toInt());
-        val call = api.likeReview(data)
+        var data = LikeDisLikeReview(user.Email.toString(), user.Id?.toInt(),user.UserId?.toInt(),1);
+        val call = api.likeDislikeReview(data)
         call?.enqueue(object : Callback<GeneralResponse> {
             override fun onResponse(
                 call: Call<GeneralResponse>,
@@ -275,7 +275,7 @@ class ReviewFragment : Fragment() {
                 if (response.code() == 200) {
                     val res = response.body()
                     user.Likes = (user.Likes!!.toInt() + 1).toString()
-                    adapter?.updateSingleCell(user, position)
+                    adapter?.updateSingleCell(user, position,Constants.Like)
                 }
             }
 

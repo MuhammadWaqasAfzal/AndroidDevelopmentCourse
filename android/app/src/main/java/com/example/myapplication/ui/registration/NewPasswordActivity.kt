@@ -17,7 +17,7 @@ import com.example.myapplication.R
 import com.example.myapplication.common.*
 import com.example.myapplication.models.ResetPassword
 import com.example.myapplication.models.SignUpData
-import com.example.myapplication.ui.api.MyApi
+import com.example.myapplication.api.MyApi
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback

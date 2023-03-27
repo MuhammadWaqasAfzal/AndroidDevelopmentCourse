@@ -12,7 +12,7 @@ import com.example.login.Login
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.common.*
-import com.example.myapplication.ui.api.MyApi
+import com.example.myapplication.api.MyApi
 import com.example.myapplication.models.SignUpData
 import okhttp3.OkHttpClient
 import retrofit2.Call

@@ -15,7 +15,7 @@ import com.example.login.Login
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.common.*
-import com.example.myapplication.ui.api.MyApi
+import com.example.myapplication.api.MyApi
 import com.example.myapplication.models.LoginData
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -57,7 +57,7 @@ class SignInActivity : AppCompatActivity() {
 
         btnSignIn!!.setOnClickListener {
             edEmail?.setText("waqasafzal1313@gmail.com");
-            edPassword?.setText("12345678")
+            edPassword?.setText("1234567899")
             if(isFieldsCorrect() && isInternetConnected(activity)){
                 loader(activity,spinner, true);
                 callApi()

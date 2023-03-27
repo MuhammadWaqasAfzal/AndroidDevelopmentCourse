@@ -43,9 +43,11 @@ class ReviewsAdapter(
 
     }
 
-    fun updateSingleCell(user: Data, position: Int) {
+    fun updateSingleCell(user: Data, position: Int, like: String) {
         ReviewsList.set(position,user);
         this.notifyItemChanged(position)
+
+
 
     }
 

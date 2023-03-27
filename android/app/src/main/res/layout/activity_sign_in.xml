@@ -22,7 +22,7 @@
                 android:layout_width="180sp"
                 android:layout_height="170sp"
                 android:layout_marginTop="60sp"
-                android:src="@drawable/ic_logo"
+                android:src="@drawable/review"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

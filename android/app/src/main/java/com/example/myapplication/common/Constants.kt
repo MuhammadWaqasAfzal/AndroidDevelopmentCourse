@@ -1,6 +1,7 @@
 package com.alphaSquared.wifapp.common
 
 import com.example.myapplication.ui.review.ReviewFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class Constants {
@@ -18,6 +19,7 @@ class Constants {
         const val DisLike = "DisLike";
 
         lateinit var reviewFragment:ReviewFragment ;
+        lateinit var fab:FloatingActionButton ;
 
     }
 }

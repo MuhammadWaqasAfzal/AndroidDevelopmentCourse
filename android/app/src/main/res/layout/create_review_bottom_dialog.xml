@@ -74,7 +74,7 @@
         android:backgroundTint="#F0F0F0"
         android:fontFamily="@font/muli"
         android:gravity="top"
-        android:hint="Description"
+        android:hint="@string/description"
         android:inputType="textCapSentences|textMultiLine"
         android:lines="6"
         android:padding="20dp"
