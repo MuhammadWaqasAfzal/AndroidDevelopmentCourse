@@ -332,16 +332,74 @@ function likeDisLikeReview($userData)
                     $query =  "INSERT INTO LikesDisLikes (UserId,Reaction,ReviewId) VALUES ('$userId','$reaction',$reviewId)";
                     $query_run = mysqli_query($conn, $query);
                 }
+               // sleep(2);
+                $query = "SELECT * FROM REVIEWS WHERE id = '$reviewId'" ;
+             
+                $query_run = mysqli_query($conn, $query);
+                $res = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+
+               
+
+                $row = $res[0];
+                $reviewId =  $row['Id'];
+               
+                $query = "SELECT * FROM LikesDisLikes where ReviewId='$reviewId' ";
+                $query_run = mysqli_query($conn, $query);
+                $likesRes = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+                $res[0]["Reactions"] = $likesRes; 
+                
+
+                
                 if ($reaction == 1)
-                    return response("200", "HTTP/1.0 200 Review Liked Successfully", "Review Liked Successfully");
+                   $message =  "Review Liked Successfully";
                 else
-                    return response("200", "HTTP/1.0 200 Review Liked Successfully", "Review DisLiked Successfully");
+                    $message = "Review DisLiked Successfully";
+                $data = [
+                    'status' => 200,
+                    'message' => $message,
+                    'data' => $res
+                ];
+               
+                header("HTTP/1.0 200 Success");
+                //echo(json_encode($data));
+                return json_encode($data);
+                
             } else {
                 return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
             }
         } else {
             return response("404", "HTTP/1.0 404 Invalid", "Invalid Review Id");
         }
+    }
+}
+
+function getAllReviews()
+{
+    global $conn;
+    $query = "SELECT * FROM REVIEWS ORDER BY DateAndTime DESC";
+    $query_run = mysqli_query($conn, $query);
+
+    if ($query_run) {
+        $res = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+
+        for ($x = 0; $x < count($res); $x++) {
+            $row = $res[$x];
+            $reviewId =  $row['Id'];
+            $query = "SELECT * FROM LikesDisLikes where ReviewId='$reviewId' ";
+            $query_run = mysqli_query($conn, $query);
+            $likesRes = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+            $res[$x]["Reactions"] = $likesRes; 
+        }
+
+        $data = [
+            'status' => 200,
+            'message' => "All Reviews",
+            'data' => $res
+        ];
+        header("HTTP/1.0 200 Success");
+        return json_encode($data);
+    } else {
+        return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
     }
 }
 
@@ -410,26 +468,7 @@ function deleteReview($userData)
 }
 
 
-function getAllReviews()
-{
-    global $conn;
-    $query = "SELECT * FROM REVIEWS";
-    $query_run = mysqli_query($conn, $query);
 
-    if ($query_run) {
-        $res = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
-
-        $data = [
-            'status' => 200,
-            'message' => "All Reviews",
-            'data' => $res
-        ];
-        header("HTTP/1.0 200 Success");
-        return json_encode($data);
-    } else {
-        return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
-    }
-}
 
 
 function getAllUsers($data)
@@ -478,9 +517,9 @@ function getAllMessages($data)
     global $conn;
     $senderId = mysqli_real_escape_string($conn, $data['userId']);
     if(empty(trim($senderId)))
-        $query = "SELECT * FROM Messages ";
+        $query = "SELECT * FROM Messages  ORDER BY DateAndTime DESC ";
     else
-        $query = "SELECT * FROM Messages where SenderId='$senderId' OR ReceiverId='$senderId' ";
+        $query = "SELECT * FROM Messages where SenderId='$senderId' OR ReceiverId='$senderId' ORDER BY DateAndTime DESC ";
     $query_run = mysqli_query($conn, $query);
 
     if ($query_run) {
