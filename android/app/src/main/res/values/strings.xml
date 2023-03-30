@@ -52,9 +52,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
     <string name="menu_messages">Messages</string>
-    <string name="menu_slideshow">Slideshow</string>
     <string name="password_required">Password is required</string>
     <string name="password_donot_match">Passwords donot match</string>
     <string name="confirm_password_required">Confirm password is required</string>
@@ -78,6 +76,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_text_here">Enter text here</string>
+    <string name="lbl_no_reviews">No reviews posted yet.</string>
+    <string name="lbl_no_messages">No messages yet.</string>
+    <string name="lbl_review">Reviews</string>
+    <string name="lbl_settings">Settings</string>
 
 
 </resources>

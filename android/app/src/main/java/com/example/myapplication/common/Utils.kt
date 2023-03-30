@@ -91,10 +91,6 @@ fun showSnackBar(context: Context,message:String) {
     snackbar.show();
 }
 
-fun refreshReviewsList(reviewFragment: ReviewFragment)
-{
-    reviewFragment.callApiToGetReviews()
 
-}
 
 

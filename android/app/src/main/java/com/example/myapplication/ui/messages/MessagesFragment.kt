@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +35,8 @@ class MessagesFragment : Fragment() {
     private var _binding: FragmentMessagesBinding? = null
 
     var recyclerView: RecyclerView? = null
+    var layoutPlaceHolder: LinearLayout? = null
+
     var adapter: MessagesAdapter? = null
     var messagesData: ArrayList<Data>? = ArrayList()
     lateinit var activity: Activity
@@ -50,16 +53,22 @@ class MessagesFragment : Fragment() {
 
         _binding = FragmentMessagesBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        layoutPlaceHolder = binding.layoutPlaceHolder
         activity = requireActivity()
         loader(activity, binding.spinner.llLoader, true)
-        callApiToGetAllMessages();
-        initRecyclerView()
+
         Constants.fab.setOnClickListener {
             Toast.makeText(activity,"waqas",Toast.LENGTH_LONG).show();
            startActivity(Intent(activity, NewMessageActivity::class.java))
         }
 
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initRecyclerView()
+
     }
 
     override fun onDestroyView() {
@@ -74,7 +83,7 @@ class MessagesFragment : Fragment() {
             .writeTimeout(16, TimeUnit.SECONDS)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:3000/php/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -88,8 +97,13 @@ class MessagesFragment : Fragment() {
                 loader(activity, binding.spinner.llLoader, false);
                 if (response.code() == 200) {
                     val res = response.body()
-                    messagesData = res?.data
-                    adapter?.updateData(messagesData)
+                    if(res?.data!!.size>0) {
+                        layoutPlaceHolder?.visibility = View.GONE
+                        messagesData = res?.data
+                        adapter?.updateData(messagesData)
+                    }
+                    else
+                        layoutPlaceHolder?.visibility = View.VISIBLE
                     // adapter?.notifyDataSetChanged()
                 } else
                     showSnackBar(activity, response.body()?.message.toString());
@@ -106,6 +120,7 @@ class MessagesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
+
         recyclerView = binding.rvMessages
         // this creates a vertical layout Manager
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
@@ -117,6 +132,7 @@ class MessagesFragment : Fragment() {
             )
         }
         recyclerView!!.adapter = adapter
+        callApiToGetAllMessages();
     }
 
     private fun onMessageClick(user: Data, position: Int, action: String) {

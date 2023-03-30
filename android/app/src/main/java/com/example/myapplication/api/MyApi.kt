@@ -2,6 +2,7 @@ package com.example.myapplication.api
 
 import com.example.login.GeneralResponse
 import com.example.login.Login
+import com.example.login.ReviewReaction
 import com.example.login.Users
 import com.example.myapplication.Messages
 import com.example.myapplication.models.*
@@ -26,7 +27,7 @@ interface MyApi {
     fun createReview(@Body data: CreateReview): Call<GeneralResponse>
 
     @POST("likeDislikeReview.php")
-    fun likeDislikeReview(@Body data: LikeDisLikeReview): Call<GeneralResponse>
+    fun likeDislikeReview(@Body data: LikeDisLikeReview): Call<ReviewReaction>
 
     @POST("updateReview.php")
     fun editReview(@Body data: EditReview): Call<GeneralResponse>

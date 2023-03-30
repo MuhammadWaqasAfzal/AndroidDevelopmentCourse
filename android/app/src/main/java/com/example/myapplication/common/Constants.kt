@@ -21,5 +21,8 @@ class Constants {
         lateinit var reviewFragment:ReviewFragment ;
         lateinit var fab:FloatingActionButton ;
 
+
+        const val BASE_URL = "http://localhost:3000/"
+
     }
 }

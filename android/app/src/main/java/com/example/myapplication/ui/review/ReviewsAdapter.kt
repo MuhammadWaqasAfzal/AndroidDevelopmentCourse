@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.alphaSquared.wifapp.common.Constants
 import com.example.myapplication.R
+import com.example.myapplication.common.getSpObject
 import com.example.review.Data
 
 class ReviewsAdapter(
@@ -87,15 +88,48 @@ class ReviewsAdapter(
             tvlikeCount!!.text = review.Likes
             tvDislikeCount!!.text = review.Dislikes
 
+          for(item in review.Reactions) {
+              if(item.UserId== getSpObject(context)!!.getString(Constants.Id,"-1"))
+              {
+                  ivLike?.setImageDrawable(context.getDrawable(R.drawable.like))
+                  ivDislike?.setImageDrawable(context.getDrawable(R.drawable.dislike))
+                  if(item.Reaction=="1")
+                      ivLike?.setImageDrawable(context.getDrawable(R.drawable.likeed))
+                  else
+                      ivDislike?.setImageDrawable(context.getDrawable(R.drawable.disliked))
+              }
+          }
+
+
+
             ivEdit!!.setOnClickListener {
                 onReviewClick(review, position,Constants.Edit)
             }
             ivDislike!!.setOnClickListener {
-                onReviewClick(review, position, Constants.DisLike)
+                var alreadyDisLiked =  false
+                for(item in review.Reactions){
+                    if(item.UserId== getSpObject(context)!!.getString(Constants.Id,"-1"))
+                    {
+                        if(item.Reaction=="0")
+                            alreadyDisLiked = true
+                    }
+                }
+                if(!alreadyDisLiked)
+                    onReviewClick(review, position, Constants.DisLike)
             }
             ivLike !!. setOnClickListener {
-                onReviewClick(review, position, Constants.Like)
+                var alreadyLiked =  false
+                for(item in review.Reactions){
+                    if(item.UserId== getSpObject(context)!!.getString(Constants.Id,"-1"))
+                    {
+                        if(item.Reaction=="1")
+                            alreadyLiked = true
+                    }
+                }
+                if(!alreadyLiked)
+                    onReviewClick(review, position, Constants.Like)
             }
+
         }
     }
 }

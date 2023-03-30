@@ -162,7 +162,7 @@ class SignUpActivity : AppCompatActivity() {
             .writeTimeout(16, TimeUnit.SECONDS)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:3000/php/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

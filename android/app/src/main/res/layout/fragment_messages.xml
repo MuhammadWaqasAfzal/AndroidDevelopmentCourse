@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
+
     tools:context=".ui.messages.MessagesFragment">
 
     <View
@@ -31,6 +33,47 @@
     <include layout="@layout/spinner"
         android:visibility="gone"
         android:id="@+id/spinner"/>
+
+    <LinearLayout
+        android:id="@+id/layoutPlaceHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/placeholder_no_data" />
+
+        <TextView
+            android:textDirection="anyRtl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/muli"
+            android:text="@string/lbl_no_messages"
+            android:textColor="@color/colorDarkGrey"
+            android:textSize="24sp" />
+
+        <!--        <TextView-->
+        <!--            android:textDirection="anyRtl"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="60dp"-->
+        <!--            android:layout_marginTop="15dp"-->
+        <!--            android:layout_marginEnd="60dp"-->
+        <!--            android:fontFamily="@font/muli"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="@string/lbl_no_leaves"-->
+        <!--            android:textColor="@color/colorDarkGrey"-->
+        <!--            android:textSize="14sp" />-->
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

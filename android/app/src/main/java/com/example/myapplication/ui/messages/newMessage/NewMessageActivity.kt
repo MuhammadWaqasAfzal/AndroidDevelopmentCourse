@@ -68,7 +68,7 @@ class NewMessageActivity : AppCompatActivity() {
             .writeTimeout(16, TimeUnit.SECONDS)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:3000/php/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -158,7 +158,7 @@ class NewMessageActivity : AppCompatActivity() {
             .writeTimeout(16, TimeUnit.SECONDS)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:3000/php/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -176,12 +176,14 @@ class NewMessageActivity : AppCompatActivity() {
                 } else
                     showSnackBar(activity, response.body()?.message.toString());
                 bottomSheetDialog.dismiss()
+                activity.finish()
             }
 
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 loader(activity, spinner!!, false);
-                showSnackBar(activity, activity.getString(R.string.error_general));
                 bottomSheetDialog.dismiss()
+                showSnackBar(activity, activity.getString(R.string.error_general));
+                activity.finish();
 
             }
         })

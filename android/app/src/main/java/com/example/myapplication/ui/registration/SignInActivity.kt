@@ -57,7 +57,8 @@ class SignInActivity : AppCompatActivity() {
 
         btnSignIn!!.setOnClickListener {
             edEmail?.setText("waqasafzal1313@gmail.com");
-            edPassword?.setText("1234567899")
+           // edEmail?.setText("awais@gmail.com");
+            edPassword?.setText("12345678")
             if(isFieldsCorrect() && isInternetConnected(activity)){
                 loader(activity,spinner, true);
                 callApi()
@@ -97,7 +98,7 @@ class SignInActivity : AppCompatActivity() {
             .writeTimeout(16, TimeUnit.SECONDS)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:3000/php/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
