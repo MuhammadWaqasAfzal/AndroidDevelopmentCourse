@@ -1,6 +1,4 @@
 <?php
-
-
 include('dbcon.php');
 
 function getUsersList()
@@ -131,7 +129,7 @@ function loginUser($userData)
                     'status' => 401,
                     'message' => "Invalid username or password",
                 ];
-                header("HTTP/1.0 401 Unauthorized");
+                header("HTTP/1.0 401 Invalid username or password");
                 return json_encode($data);
             }
         } else {
@@ -264,6 +262,32 @@ function updateReview($userData)
         $query_run = mysqli_query($conn, $query);
         if ($query_run) {
             return response("200", "HTTP/1.0 200 Review Updated Successfully", "Review Updated Successfully");
+        } else {
+            return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
+        }
+    }
+}
+
+function editUserName($userData)
+{
+    global $conn;
+
+    $id = mysqli_real_escape_string($conn, $userData['id']);
+    $firstName = mysqli_real_escape_string($conn, $userData['firstName']);
+    $lastName = mysqli_real_escape_string($conn, $userData['lastName']);
+   
+
+    if (empty(trim($firstName))) {
+        return response("422", "HTTP/1.0 422 First name is required", " First name is required");
+    } else if (empty(trim($lastName))) {
+        return response("422", "HTTP/1.0 422 Last name is required", " Last name is required");
+    } else if (empty(trim($id))) {
+        return response("422", "HTTP/1.0 422 User id is required", "User id is required");
+    } else {
+        $query = "UPDATE `USERS` SET `FirstName`='$firstName' ,`LastName`='$lastName' WHERE Id = '$id'";
+        $query_run = mysqli_query($conn, $query);
+        if ($query_run) {
+            return response("200", "HTTP/1.0 200 User name updated Successfully", "User name updated Successfully");
         } else {
             return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
         }
@@ -457,12 +481,12 @@ function deleteReview($userData)
             $query = "DELETE FROM `Reviews` WHERE Id = '$id'";
             $query_run = mysqli_query($conn, $query);
             if ($query_run) {
-                return response("200", "HTTP/1.0 201 Created", "Review Deleted Successfully");
+                return response("200", "HTTP/1.0 200 Review Deleted Successfully", "Review Deleted Successfully");
             } else {
-                return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
+                return response("500", "Internal Server Error", "Internal Server Error");
             }
         } else {
-            return response("404", "HTTP/1.0 404 Invalid", "Invalid Review Id");
+            return response("404", "HTTP/1.0 404 Invalid Review Id", "Invalid Review Id");
         }
     }
 }
