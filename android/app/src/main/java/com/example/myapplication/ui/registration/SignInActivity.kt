@@ -56,9 +56,9 @@ class SignInActivity : AppCompatActivity() {
         }
 
         btnSignIn!!.setOnClickListener {
-            edEmail?.setText("waqasafzal1313@gmail.com");
+           // edEmail?.setText("waqasafzal1313@gmail.com");
            // edEmail?.setText("awais@gmail.com");
-            edPassword?.setText("12345678")
+           // edPassword?.setText("12345678")
             if(isFieldsCorrect() && isInternetConnected(activity)){
                 loader(activity,spinner, true);
                 callApi()
@@ -119,6 +119,7 @@ class SignInActivity : AppCompatActivity() {
                     sp?.putString(Constants.Password, response.body()?.data?.Password)
                     sp?.putString(Constants.Gender, response.body()?.data?.Gender)
                     sp?.putBoolean(Constants.LoggedIn, true)
+                    sp?.putString(Constants.isAdmin, response.body()?.data?.Admin)
                     sp?.commit()
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                     finish()

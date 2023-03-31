@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.registration
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,9 +11,16 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.alphaSquared.wifapp.common.Constants
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.common.MyContextWrapper
 import com.example.myapplication.common.getSpObject
 
 class SplashActivity : AppCompatActivity() {
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        MyContextWrapper.wrap(newBase , getSpObject(this)?.getString(Constants.Language, Constants.en))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)

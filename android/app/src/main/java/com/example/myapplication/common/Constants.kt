@@ -14,9 +14,14 @@ class Constants {
         const val Gender = "Gender";
         const val Password = "Password";
         const val LoggedIn = "LoggedIn";
+        const val isAdmin = "isAdmin";
         const val Edit = "Edit";
         const val Like = "Like";
+        const val Delete = "Delete";
         const val DisLike = "DisLike";
+        const val Language = "Language";
+        const val en = "en";
+        const val sp = "es";
 
         lateinit var reviewFragment:ReviewFragment ;
         lateinit var fab:FloatingActionButton ;

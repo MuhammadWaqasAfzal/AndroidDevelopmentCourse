@@ -29,6 +29,9 @@ interface MyApi {
     @POST("likeDislikeReview.php")
     fun likeDislikeReview(@Body data: LikeDisLikeReview): Call<ReviewReaction>
 
+    @POST("deleteReview.php")
+    fun deleteReview(@Body data: DeleteReview): Call<GeneralResponse>
+
     @POST("updateReview.php")
     fun editReview(@Body data: EditReview): Call<GeneralResponse>
 
@@ -43,5 +46,8 @@ interface MyApi {
 
     @POST("sendMessage.php")
     fun sendMessage(@Body data: SendMessage): Call<GeneralResponse>
+
+    @POST("editUserName.php")
+    fun editUserName(@Body data: EditUserName): Call<GeneralResponse>
 
 }

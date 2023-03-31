@@ -26,5 +26,7 @@
     <color name="background_color">#EEEEEE</color>
     <color name="text_Color">#111115</color>
     <color name="ed_background">#EAECF3</color>
+    <color name="strokeColor">#E2E2E2</color>
+
 
 </resources>

@@ -28,10 +28,16 @@ data class CreateReview(
     @SerializedName("email") val email: String,
     @SerializedName("description") val password: String?,
 )
+
 data class EditReview(
     @SerializedName("email") val email: String,
     @SerializedName("id") val id: Int?,
     @SerializedName("description") val password: String?,
+)
+
+data class DeleteReview(
+    @SerializedName("email") val email: String,
+    @SerializedName("id") val id: Int?
 )
 
 data class LikeDisLikeReview(
@@ -49,4 +55,10 @@ data class SendMessage(
     @SerializedName("text") val text: String,
     @SerializedName("senderId") val senderId: Int?,
     @SerializedName("receiverId") val receiverId: Int?
+)
+
+data class EditUserName(
+    @SerializedName("id") val text: String,
+    @SerializedName("firstName") val senderId: String?,
+    @SerializedName("lastName") val receiverId: String?
 )

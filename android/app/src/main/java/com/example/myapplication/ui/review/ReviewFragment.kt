@@ -25,6 +25,7 @@ import com.example.myapplication.common.loader
 import com.example.myapplication.common.showSnackBar
 import com.example.myapplication.databinding.FragmentReviewBinding
 import com.example.myapplication.models.CreateReview
+import com.example.myapplication.models.DeleteReview
 import com.example.myapplication.models.EditReview
 import com.example.myapplication.models.LikeDisLikeReview
 import com.example.review.Data
@@ -74,9 +75,7 @@ class ReviewFragment : Fragment() {
                     showAddReviewBottomDialog()
                 }
             }, 1000)
-        }
-        catch (e:Exception)
-        {
+        } catch (e: Exception) {
             Handler().postDelayed({
                 Constants.fab.setOnClickListener { view ->
                     showAddReviewBottomDialog()
@@ -118,12 +117,11 @@ class ReviewFragment : Fragment() {
                 loader(activity, binding.spinner.llLoader, false);
                 if (response.code() == 200) {
                     val res = response.body()
-                    if(res?.data!!.size>0) {
+                    if (res?.data!!.size > 0) {
                         layoutPlaceHolder?.visibility = View.GONE
                         reviewsData = res?.data
                         adapter?.updateData(reviewsData)
-                    }
-                    else
+                    } else
                         layoutPlaceHolder?.visibility = View.VISIBLE
 
                     // adapter?.notifyDataSetChanged()
@@ -165,6 +163,8 @@ class ReviewFragment : Fragment() {
             callAPiToDisLikeReview(user, position, action)
         } else if (action.equals(Constants.Edit)) {
             showEditReviewBottomDialog(user, position)
+        } else if (action.equals(Constants.Delete)) {
+            callAPiToDeleteReview(user, position)
         }
     }
 
@@ -251,6 +251,48 @@ class ReviewFragment : Fragment() {
 
             }
         })
+    }
+
+    private fun callAPiToDeleteReview(user: Data, position: Int) {
+//        val gson = GsonBuilder()
+//            .setLenient()
+//            .create()
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(16, TimeUnit.SECONDS)
+            .readTimeout(16, TimeUnit.SECONDS)
+            .writeTimeout(16, TimeUnit.SECONDS)
+            .build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+
+        val api = retrofit.create(MyApi::class.java);
+        var data = DeleteReview(
+            getSpObject(activity)!!.getString(Constants.Email, "-1").toString(),
+           user.Id!!.toInt());
+        val call = api.deleteReview(data)
+        call?.enqueue(object : Callback<GeneralResponse> {
+            override fun onResponse(
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
+            ) {
+                if (response.code() == 200) {
+                    val res = response.body()
+                    //val user = res!!.data[0]
+                    // user.Dislikes = (user.Dislikes!!.toInt() + 1).toString()
+                    adapter?.deleteReview(position)
+                }
+                showSnackBar(activity, response.message());
+            }
+
+            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                showSnackBar(activity, activity.getString(R.string.error_general));
+            }
+        })
+
     }
 
 
@@ -363,7 +405,7 @@ class ReviewFragment : Fragment() {
                 bottomSheetDialog.dismiss()
                 showSnackBar(activity, response.message());
                 if (response.code() == 201) {
-                   callApiToGetReviews()
+                    callApiToGetReviews()
                 }
             }
 
