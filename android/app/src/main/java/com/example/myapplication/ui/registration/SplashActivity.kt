@@ -12,7 +12,9 @@ import com.alphaSquared.wifapp.common.Constants
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.common.MyContextWrapper
+import com.example.myapplication.common.getFcmToken
 import com.example.myapplication.common.getSpObject
+import com.google.firebase.FirebaseApp
 
 class SplashActivity : AppCompatActivity() {
 
@@ -43,6 +45,9 @@ class SplashActivity : AppCompatActivity() {
             }
 
         }, Constants.SPLASH_TIME)
+
+        getFcmToken(this);
+
     }
 
 

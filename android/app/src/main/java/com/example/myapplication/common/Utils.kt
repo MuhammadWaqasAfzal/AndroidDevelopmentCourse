@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.WindowManager
@@ -14,6 +15,8 @@ import com.alphaSquared.wifapp.common.Constants
 import com.example.myapplication.R
 import com.example.myapplication.ui.review.ReviewFragment
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -101,6 +104,19 @@ fun setHeaderValues(context: Context) {
     var lastName = getSpObject(context)?.getString( Constants.LastName,"")
     tvUserName?.text = firstName + " " +lastName
     tvUserEmail?.text = getSpObject(context)?.getString(Constants.Email,"")
+}
+
+fun getFcmToken(context: Context) {
+    FirebaseApp.initializeApp(context);
+
+    FirebaseMessaging.getInstance().token.addOnCompleteListener {
+        if (it.isSuccessful){
+            var sp = getSpObject(context)?.edit()
+            sp?.putString(Constants.FIREBASE_DEVICE_TOKEN,it.result)
+            sp?.commit()
+        }
+        Log.d("tokenDevice",it.result)
+    }
 }
 
 
