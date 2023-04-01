@@ -13,7 +13,7 @@ import com.example.myapplication.common.getSpObject
 import com.example.review.Data
 
 class ReviewsAdapter(
-    private var ReviewsList: ArrayList<Data>,
+    private var ReviewsList: MutableList<Data>,
     private var context: Activity,
     private val onReviewClick: (review: Data, position: Int, action: String) -> Unit
 ) :
@@ -33,14 +33,11 @@ class ReviewsAdapter(
         holder.bind(reviews, position, context, onReviewClick)
     }
 
-    fun update(Reviews: ArrayList<Data>) {
-        ReviewsList = Reviews
-        this.notifyDataSetChanged()
-    }
-
-    fun updateData(reviewsData: ArrayList<Data>?) {
+    fun updateData(reviewsData: MutableList<Data>?) {
         this.ReviewsList.clear()
-        this.ReviewsList = reviewsData!!;
+        if (reviewsData != null) {
+            this.ReviewsList = reviewsData.toMutableList()
+        }
         this.notifyDataSetChanged()
 
     }
@@ -48,15 +45,12 @@ class ReviewsAdapter(
     fun updateSingleCell(user: Data, position: Int, like: String) {
         ReviewsList.set(position, user);
         this.notifyItemChanged(position)
-
-
     }
 
     fun deleteReview(position: Int) {
         ReviewsList.removeAt(position)
         notifyDataSetChanged();
     }
-
 
     class ViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.single_item_review_list, parent, false)) {
@@ -70,6 +64,7 @@ class ReviewsAdapter(
         var tvReviewDescription: TextView? = null
         var tvDislikeCount: TextView? = null
         var tvlikeCount: TextView? = null
+        var tvReviewId: TextView? = null
 
         init {
             imageView = itemView.findViewById(R.id.ivAvatar)
@@ -81,6 +76,7 @@ class ReviewsAdapter(
             tvReviewDescription = itemView.findViewById(R.id.tvReviewDescription)
             tvDislikeCount = itemView.findViewById(R.id.tvDislikeCount)
             tvlikeCount = itemView.findViewById(R.id.tvlikeCount)
+            tvReviewId = itemView.findViewById(R.id.tvReviewId)
         }
 
         fun bind(
@@ -94,6 +90,10 @@ class ReviewsAdapter(
             tvReviewDescription!!.text = review.Description
             tvlikeCount!!.text = review.Likes
             tvDislikeCount!!.text = review.Dislikes
+            tvReviewId!!.text = review.Id
+
+            ivDelete?.visibility = View.GONE
+            ivEdit?.visibility = View.GONE
 
             for (item in review.Reactions) {
                 if (item.UserId == getSpObject(context)!!.getString(Constants.Id, "-1")) {
@@ -106,11 +106,10 @@ class ReviewsAdapter(
                 }
             }
 
-            if(review.UserId==getSpObject(context)!!.getString(Constants.Id, "-1") || getSpObject(context)!!.getString(Constants.isAdmin, "0")=="1")
-            {
-                ivDelete?.visibility = View.GONE
+            if (getSpObject(context)!!.getString(Constants.isAdmin, "0") == "1" || review.UserId == getSpObject(context)!!.getString(Constants.Id, "-1")) {
+                    ivDelete?.visibility = View.VISIBLE
+                    ivEdit?.visibility = View.VISIBLE
             }
-
 
             ivEdit!!.setOnClickListener {
                 onReviewClick(review, position, Constants.Edit)
@@ -141,8 +140,6 @@ class ReviewsAdapter(
             ivDelete!!.setOnClickListener({
                 onReviewClick(review, position, Constants.Delete)
             })
-
-
 
 
         }

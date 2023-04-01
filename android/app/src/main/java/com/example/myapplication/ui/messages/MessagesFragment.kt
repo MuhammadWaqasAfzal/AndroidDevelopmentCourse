@@ -7,13 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.alphaSquared.wifapp.common.Constants
 import com.example.myapplication.Data
 import com.example.myapplication.Messages
+import com.example.myapplication.R
 import com.example.myapplication.api.MyApi
 import com.example.myapplication.common.getSpObject
 import com.example.myapplication.common.loader
@@ -21,6 +24,7 @@ import com.example.myapplication.common.showSnackBar
 import com.example.myapplication.databinding.FragmentMessagesBinding
 import com.example.myapplication.models.GetMessagesList
 import com.example.myapplication.ui.messages.newMessage.NewMessageActivity
+import okhttp3.Connection
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,8 +42,13 @@ class MessagesFragment : Fragment() {
     var layoutPlaceHolder: LinearLayout? = null
 
     var adapter: MessagesAdapter? = null
-    var messagesData: ArrayList<Data>? = ArrayList()
+    var messagesData: MutableList<Data>? = ArrayList()
+    var messagesFilterData: MutableList<Data>? = ArrayList()
+
     lateinit var activity: Activity
+
+    lateinit var swipeToRefreshProfile: SwipeRefreshLayout
+    lateinit var simpleSearchView: SearchView
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -55,15 +64,58 @@ class MessagesFragment : Fragment() {
         val root: View = binding.root
         layoutPlaceHolder = binding.layoutPlaceHolder
         activity = requireActivity()
+
+        swipeToRefreshProfile = binding.swipeToRefreshProfile
+        simpleSearchView = binding.simpleSearchView
+
         loader(activity, binding.spinner.llLoader, true)
 
+
+        if(getSpObject(activity)?.getString(Constants.isAdmin,"0")=="1")
+            Constants.fab.visibility = View.VISIBLE
+        else
+            Constants.fab.visibility = View.GONE
         Constants.fab.setOnClickListener {
-            Toast.makeText(activity,"waqas",Toast.LENGTH_LONG).show();
-           startActivity(Intent(activity, NewMessageActivity::class.java))
+            Toast.makeText(activity, "waqas", Toast.LENGTH_LONG).show();
+            startActivity(Intent(activity, NewMessageActivity::class.java))
         }
+
+
+
+        swipeToRefreshProfile.setOnRefreshListener {
+            callApiToGetAllMessages()
+        }
+
+        setSearchBar()
 
         return root
     }
+
+    private fun setSearchBar() {
+        simpleSearchView.setQueryHint(getString(R.string.search_hint_message));
+        simpleSearchView.setIconifiedByDefault(false);
+        simpleSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                messagesFilterData?.clear()
+                for (review in messagesData!!) {
+                    if (review.SenderName.toString().toLowerCase()
+                            .contains(newText.toString().toLowerCase()) || review.ReceiverName.toString().toLowerCase()
+                            .contains(newText.toString().toLowerCase())
+                    ) {
+                        messagesFilterData?.add(review)
+                    }
+                }
+                adapter?.updateData(messagesFilterData);
+                return false
+            }
+        })
+
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -89,20 +141,24 @@ class MessagesFragment : Fragment() {
             .build()
 
         val api = retrofit.create(MyApi::class.java);
-         var data = GetMessagesList(getSpObject(activity)?.getString(Constants.Id,"0")!!);
-      //   var data = GetMessagesList("1");
+        var data = GetMessagesList(getSpObject(activity)?.getString(Constants.Id, "0")!!);
+        //   var data = GetMessagesList("1");
         val call = api.getAllMessages(data)
         call?.enqueue(object : Callback<Messages> {
             override fun onResponse(call: Call<Messages>, response: Response<Messages>) {
                 loader(activity, binding.spinner.llLoader, false);
+                swipeToRefreshProfile.isRefreshing = false
                 if (response.code() == 200) {
                     val res = response.body()
-                    if(res?.data!!.size>0) {
+                    if (res?.data!!.size > 0) {
                         layoutPlaceHolder?.visibility = View.GONE
-                        messagesData = res?.data
                         adapter?.updateData(messagesData)
-                    }
-                    else
+
+                        messagesData = res.data.toMutableList()
+                        messagesFilterData = res.data.toMutableList()
+                        adapter?.updateData(messagesFilterData)
+
+                    } else
                         layoutPlaceHolder?.visibility = View.VISIBLE
                     // adapter?.notifyDataSetChanged()
                 } else
@@ -111,8 +167,12 @@ class MessagesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Messages>, t: Throwable) {
+                swipeToRefreshProfile.isRefreshing = false
                 loader(activity, binding.spinner.llLoader, false);
-                showSnackBar(activity, activity.getString(com.example.myapplication.R.string.error_general));
+                showSnackBar(
+                    activity,
+                    activity.getString(com.example.myapplication.R.string.error_general)
+                );
 
             }
         })

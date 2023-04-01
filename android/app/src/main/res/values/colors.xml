@@ -3,6 +3,8 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFCC00</color>
     <color name="colorAccent">#70A6F2</color>
+    <color name="light_blue">#70A6F2</color>
+
     <color name="colorStroke">#C8C8C8</color>
     <color name="colorLightGrey">#9E9E9E</color>
     <color name="colorDarkGrey">#4D4D4D</color>
@@ -24,7 +26,6 @@
     <color name="iconTintColorGray">#9e9e9e</color>
     <color name="buttonBackgroundColor">#2A3749</color>
     <color name="background_color">#EEEEEE</color>
-    <color name="text_Color">#111115</color>
     <color name="ed_background">#EAECF3</color>
     <color name="strokeColor">#E2E2E2</color>
 

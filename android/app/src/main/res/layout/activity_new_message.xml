@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/muli_bold"
             android:text="@string/lbl_new_message"
-            android:textColor="@color/text_Color"
+            android:textColor="@color/colorDarkGrey"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/text_Color" />
+            app:tint="@color/colorDarkGrey" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

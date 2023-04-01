@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="splash_tagline">Find a Teacher, Find a Student</string>
+    <string name="app_name">Tourist Reviews</string>
     <string name="lbl_change_password">Please enter your new password</string>
     <string name="settigns_change_password">Change Password</string>
     <string name="sign_in">Sign In</string>
@@ -86,6 +85,13 @@
     <string name="lbl_change_language">Change Language</string>
     <string name="edit_user_name">Edit User Name</string>
     <string name="save">Save</string>
+    <string name="lbl_otp_sent">OTP is 123456</string>
+    <string name="id">Review ID:</string>
+    <string name="search_hint">Enter user name or ID</string>
+    <string name="search_hint_message">Enter sender or receiver name</string>
+    <string name="user_name">User Name:</string>
+    <string name="description2">Description:</string>
+
 
 
 </resources>

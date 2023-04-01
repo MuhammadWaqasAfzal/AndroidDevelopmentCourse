@@ -24,7 +24,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/muli"
         android:text="@string/lbl_new_message"
-        android:textColor="@color/text_Color"
+        android:textColor="@color/colorDarkGrey"
         android:textFontWeight="600"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
     <!--        android:layout_marginTop="20dp"-->
     <!--        android:fontFamily="@font/muli"-->
     <!--        android:text="@string/enter_description"-->
-    <!--        android:textColor="@color/text_Color"-->
+    <!--        android:textColor="@color/colorDarkGrey"-->
     <!--        android:textFontWeight="500"-->
     <!--        android:textSize="16sp"-->
     <!--        app:layout_constraintEnd_toEndOf="parent"-->
@@ -71,7 +71,7 @@
         android:paddingStart="20dp"
 
         android:scrollbars="vertical"
-        android:textColor="@color/text_Color"
+        android:textColor="@color/colorDarkGrey"
         android:textFontWeight="400"
         android:textSize="14sp"
         android:visibility="visible"

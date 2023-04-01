@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.alphaSquared.wifapp.common.Constants
 import com.example.login.GeneralResponse
 import com.example.login.ReviewReaction
@@ -47,8 +45,11 @@ class ReviewFragment : Fragment() {
     var recyclerView: RecyclerView? = null
     var layoutPlaceHolder: LinearLayout? = null
     var adapter: ReviewsAdapter? = null
-    var reviewsData: ArrayList<Data>? = ArrayList()
+    var reviewsData: MutableList<Data> = ArrayList()
+    var reviewsFilterData: MutableList<Data>? = ArrayList()
     lateinit var activity: Activity
+    lateinit var swipeToRefreshProfile: SwipeRefreshLayout
+    lateinit var simpleSearchView: SearchView
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -64,6 +65,8 @@ class ReviewFragment : Fragment() {
         val root: View = binding.root
         activity = requireActivity()
         layoutPlaceHolder = binding.layoutPlaceHolder
+        swipeToRefreshProfile = binding.swipeToRefreshProfile
+        simpleSearchView = binding.simpleSearchView
         Constants.reviewFragment = this
         loader(activity, binding.spinner.llLoader, true)
         // refreshReviewsList(this)
@@ -83,13 +86,41 @@ class ReviewFragment : Fragment() {
             }, 2000)
         }
 
+        swipeToRefreshProfile.setOnRefreshListener {
+            callApiToGetReviews();
+        }
+
+        setSearchBar()
         return root
+    }
+
+    private fun setSearchBar() {
+        simpleSearchView.setQueryHint(getString(R.string.search_hint));
+        simpleSearchView.setIconifiedByDefault(false);
+        simpleSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                reviewsFilterData?.clear()
+                for (review in reviewsData!!) {
+                    if (review.Description.toString().toLowerCase()
+                            .contains(newText.toString().toLowerCase()) || review.Id.toString()
+                            .contains(newText.toString())
+                    ) {
+                        reviewsFilterData?.add(review)
+                    }
+                }
+                adapter?.updateData(reviewsFilterData);
+                return false
+            }
+        })
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
     }
 
     override fun onDestroyView() {
@@ -110,27 +141,26 @@ class ReviewFragment : Fragment() {
             .build()
 
         val api = retrofit.create(MyApi::class.java);
-        // var loginData = LoginData(edEmail?.text.toString().trim().toLowerCase(),edPassword?.text.toString());
         val call = api.getAllReview()
         call?.enqueue(object : Callback<Review> {
             override fun onResponse(call: Call<Review>, response: Response<Review>) {
                 loader(activity, binding.spinner.llLoader, false);
+                swipeToRefreshProfile.isRefreshing = false
                 if (response.code() == 200) {
                     val res = response.body()
                     if (res?.data!!.size > 0) {
                         layoutPlaceHolder?.visibility = View.GONE
-                        reviewsData = res?.data
-                        adapter?.updateData(reviewsData)
+                        reviewsData = res.data.toMutableList()
+                        reviewsFilterData = res.data.toMutableList()
+                        adapter?.updateData(reviewsFilterData)
                     } else
                         layoutPlaceHolder?.visibility = View.VISIBLE
-
-                    // adapter?.notifyDataSetChanged()
                 } else
                     showSnackBar(activity, response.body()?.message.toString());
-                // Toast.makeText(this@SignInActivity,res?.message.toString(),Toast.LENGTH_LONG).show()
             }
 
             override fun onFailure(call: Call<Review>, t: Throwable) {
+                swipeToRefreshProfile.isRefreshing = false
                 loader(activity, binding.spinner.llLoader, false);
                 showSnackBar(activity, activity.getString(R.string.error_general));
 
@@ -143,7 +173,7 @@ class ReviewFragment : Fragment() {
         recyclerView = binding.rvReviews
         // this creates a vertical layout Manager
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
-        adapter = ReviewsAdapter(reviewsData!!, activity) { user, position, action ->
+        adapter = ReviewsAdapter(reviewsFilterData!!, activity) { user, position, action ->
             onReviewClick(
                 user,
                 position,
@@ -272,7 +302,8 @@ class ReviewFragment : Fragment() {
         val api = retrofit.create(MyApi::class.java);
         var data = DeleteReview(
             getSpObject(activity)!!.getString(Constants.Email, "-1").toString(),
-           user.Id!!.toInt());
+            user.Id!!.toInt()
+        );
         val call = api.deleteReview(data)
         call?.enqueue(object : Callback<GeneralResponse> {
             override fun onResponse(

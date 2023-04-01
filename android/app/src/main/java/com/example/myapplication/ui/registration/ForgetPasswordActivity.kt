@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.alphaSquared.wifapp.common.Constants
@@ -62,9 +63,11 @@ class ForgetPasswordActivity : AppCompatActivity() {
     }
 
     private fun callApi() {
+
         getSpObject(activity)?.edit()?.putString(Constants.Email,edEmail?.text.toString().trim().toLowerCase())?.commit();
         var intent = Intent(this, OTPActivity::class.java)
         startActivity(intent)
+        Toast.makeText(this,this.resources.getString(R.string.lbl_otp_sent),Toast.LENGTH_LONG);
     }
 
     private fun isFieldsCorrect(): Boolean {

@@ -49,7 +49,7 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginEnd="32sp"
                 android:fontFamily="@font/muli"
-                android:textColor="@color/text_Color"
+                android:textColor="@color/colorDarkGrey"
                 android:textDirection="anyRtl"
                 android:textSize="12sp"
                 app:layout_constraintHorizontal_bias="0.0" />
@@ -63,7 +63,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/muli"
-                android:textColor="@color/text_Color"
+                android:textColor="@color/colorDarkGrey"
                 android:textDirection="anyRtl"
                 android:textSize="12sp" />
 
@@ -94,7 +94,7 @@
                     android:foreground="?selectableItemBackgroundBorderless"
                     android:gravity="center_vertical"
                     android:text="@string/lbl_language"
-                    android:textColor="@color/text_Color"
+                    android:textColor="@color/colorDarkGrey"
                     android:textDirection="anyRtl"
                     android:textSize="13sp" />
 
@@ -112,7 +112,7 @@
                     android:foreground="?selectableItemBackgroundBorderless"
                     android:gravity="center_vertical"
                     android:text="@string/settigns_change_password"
-                    android:textColor="@color/text_Color"
+                    android:textColor="@color/colorDarkGrey"
                     android:textDirection="anyRtl"
                     android:textSize="13sp" />
 
@@ -131,7 +131,7 @@
                     android:foreground="?selectableItemBackgroundBorderless"
                     android:gravity="center_vertical"
                     android:text="@string/lbl_logout"
-                    android:textColor="@color/text_Color"
+                    android:textColor="@color/colorDarkGrey"
                     android:textDirection="anyRtl"
                     android:textSize="13sp" />
 

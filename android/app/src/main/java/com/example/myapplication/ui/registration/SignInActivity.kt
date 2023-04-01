@@ -56,9 +56,9 @@ class SignInActivity : AppCompatActivity() {
         }
 
         btnSignIn!!.setOnClickListener {
-           // edEmail?.setText("waqasafzal1313@gmail.com");
+            edEmail?.setText("waqasafzal1313@gmail.com1sa111");
            // edEmail?.setText("awais@gmail.com");
-           // edPassword?.setText("12345678")
+            edPassword?.setText("12345678")
             if(isFieldsCorrect() && isInternetConnected(activity)){
                 loader(activity,spinner, true);
                 callApi()
@@ -125,7 +125,7 @@ class SignInActivity : AppCompatActivity() {
                     finish()
                 }
                 else
-                    showSnackBar(activity,response.body()?.message.toString());
+                    showSnackBar(activity,response.message().toString());
                    // Toast.makeText(this@SignInActivity,res?.message.toString(),Toast.LENGTH_LONG).show()
             }
 

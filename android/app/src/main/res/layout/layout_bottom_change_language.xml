@@ -35,7 +35,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/muli"
             android:text="@string/lbl_change_language"
-            android:textColor="@color/text_Color"
+            android:textColor="@color/colorDarkGrey"
             android:textDirection="anyRtl"
             android:textSize="16sp"
 
@@ -88,7 +88,7 @@
                     android:gravity="center"
                     android:maxWidth="140sp"
                     android:text="Spanish"
-                    android:textColor="@color/text_Color"
+                    android:textColor="@color/colorDarkGrey"
                     android:textDirection="anyRtl"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -130,7 +130,7 @@
                     android:gravity="center"
                     android:maxWidth="140sp"
                     android:text="English"
-                    android:textColor="@color/text_Color"
+                    android:textColor="@color/colorDarkGrey"
                     android:textDirection="anyRtl"
                     android:textSize="15sp" />
             </LinearLayout>

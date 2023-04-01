@@ -35,7 +35,7 @@
             android:fontFamily="@font/muli"
             android:maxLines="1"
             android:text="Muhammad Waqas Afzal "
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/buttonBackgroundColor"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

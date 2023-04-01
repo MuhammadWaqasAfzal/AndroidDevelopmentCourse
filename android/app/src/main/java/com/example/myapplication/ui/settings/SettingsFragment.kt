@@ -18,6 +18,7 @@ import com.example.myapplication.R
 import com.example.myapplication.api.MyApi
 import com.example.myapplication.common.getSpObject
 import com.example.myapplication.common.isInternetConnected
+import com.example.myapplication.common.setHeaderValues
 import com.example.myapplication.common.showSnackBar
 import com.example.myapplication.databinding.FragmentSettingsBinding
 import com.example.myapplication.databinding.LayoutBottomChangeLanguageBinding
@@ -237,6 +238,8 @@ class SettingsFragment : Fragment() {
                     sp?.putString(Constants.LastName,lastName)
                     sp?.commit()
                     setUserNameAndEmail()
+                    setHeaderValues(activity)
+
                 }
             }
 

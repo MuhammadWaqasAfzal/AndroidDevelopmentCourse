@@ -25,7 +25,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/muli"
         android:text="@string/edit_user_name"
-        android:textColor="@color/text_Color"
+        android:textColor="@color/colorDarkGrey"
         android:textFontWeight="600"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

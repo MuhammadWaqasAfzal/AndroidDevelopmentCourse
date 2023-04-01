@@ -1,5 +1,6 @@
 package com.alphaSquared.wifapp.common
 
+import android.view.View
 import com.example.myapplication.ui.review.ReviewFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -25,6 +26,7 @@ class Constants {
 
         lateinit var reviewFragment:ReviewFragment ;
         lateinit var fab:FloatingActionButton ;
+        lateinit var headerView : View
 
 
         const val BASE_URL = "http://localhost:3000/"

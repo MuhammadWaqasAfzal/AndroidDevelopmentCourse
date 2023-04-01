@@ -18,21 +18,20 @@
         app:srcCompat="@drawable/ic_avatar_male" />
 
     <TextView
+        android:id="@+id/tvUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:fontFamily="@font/muli_bold"
         android:maxLines="1"
-        android:text="Muhammad Waqas Afzal "
         android:textColor="@color/colorWhite"
         android:textSize="12dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvUserEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/muli"
-        android:text="waqasafzal1313@gmail.com "
         android:textColor="@color/colorWhite"
         android:textSize="12dp" />
 </LinearLayout>

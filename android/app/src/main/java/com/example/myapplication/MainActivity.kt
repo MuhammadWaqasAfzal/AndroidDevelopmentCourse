@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +26,7 @@ import com.example.myapplication.common.showSnackBar
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.models.CreateReview
 import com.example.myapplication.api.MyApi
+import com.example.myapplication.common.setHeaderValues
 import com.example.myapplication.ui.review.ReviewFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
@@ -71,7 +73,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
+        var headerView = navView.getHeaderView(0);
+
+
+
         Constants.fab = binding.appBarMain.fabNewReview;
+        Constants.headerView = headerView
+        setHeaderValues(activity)
 
     }
 

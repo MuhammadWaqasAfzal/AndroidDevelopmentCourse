@@ -12,7 +12,7 @@ import com.example.myapplication.R
 import com.example.myapplication.common.getSpObject
 
 class MessagesAdapter(
-    private var messagesList: ArrayList<com.example.myapplication.Data>,
+    private var messagesList: MutableList<Data>,
     private var context:Activity,
     private val onMessageClick: (message: Data, position: Int, action: String) -> Unit
 ) :
@@ -32,14 +32,10 @@ class MessagesAdapter(
         holder.bind(message, position,context, onMessageClick)
     }
 
-    fun update(Messages: ArrayList<Data>) {
-        messagesList = Messages
-        this.notifyDataSetChanged()
-    }
 
-    fun updateData(messagesData: ArrayList<Data>?) {
+    fun updateData(messagesData: MutableList<Data>?) {
         this.messagesList.clear()
-        this.messagesList = messagesData!!;
+        this.messagesList = messagesData!!.toMutableList();
         this.notifyDataSetChanged()
 
     }

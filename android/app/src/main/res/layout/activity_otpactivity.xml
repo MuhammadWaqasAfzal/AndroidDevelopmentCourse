@@ -48,7 +48,7 @@
                 android:fontFamily="@font/muli_bold"
                 android:gravity="center"
                 android:text="@string/otp_instruction"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/buttonBackgroundColor"
                 android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

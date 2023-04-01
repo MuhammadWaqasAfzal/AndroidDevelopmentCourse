@@ -7,8 +7,10 @@ import android.net.ConnectivityManager
 import android.util.Patterns
 import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.alphaSquared.wifapp.common.Constants
 import com.example.myapplication.R
 import com.example.myapplication.ui.review.ReviewFragment
 import com.google.android.material.snackbar.Snackbar
@@ -89,6 +91,16 @@ fun showSnackBar(context: Context,message:String) {
     snackbar.setBackgroundTint(ContextCompat.getColor(context, R.color.buttonBackgroundColor))
     snackbar.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
     snackbar.show();
+}
+
+fun setHeaderValues(context: Context) {
+
+    var tvUserName: TextView = Constants.headerView.findViewById(R.id.tvUserName);
+    var tvUserEmail: TextView = Constants.headerView.findViewById(R.id.tvUserEmail);
+    var firstName = getSpObject(context)?.getString(Constants.FirstName,"")
+    var lastName = getSpObject(context)?.getString( Constants.LastName,"")
+    tvUserName?.text = firstName + " " +lastName
+    tvUserEmail?.text = getSpObject(context)?.getString(Constants.Email,"")
 }
 
 
