@@ -195,12 +195,12 @@ function addReview($userData)
         $query_run = $conn->query($userExits);
         if (mysqli_num_rows($query_run) > 0) {
             $res = mysqli_fetch_assoc($query_run);
-
             $userName = (string)$res["FirstName"] . " " . (string) $res["LastName"];
             $userId = $res["Id"];
             $query = "INSERT INTO Reviews (Description,Email,Likes,Dislikes,DateAndTime,UserName,UserId)
             VALUES ('$description','$email','$likes','$disLikes','$date' , '$userName','$userId')";
             $query_run = mysqli_query($conn, $query);
+            sendNotification("New Review",$userName . " posted a new review","SELECT * FROM Users WHERE email != '$email'");
             if ($query_run) {
                 return response("201", "HTTP/1.0 201 Review created Successfully", "Review created Successfully");
             } else {
@@ -211,6 +211,7 @@ function addReview($userData)
         }
     }
 }
+
 
 
 function sendMessage($userData)
@@ -234,6 +235,8 @@ function sendMessage($userData)
             VALUES ('$senderId','$receiverId','$text','$date' )";
         $query_run = mysqli_query($conn, $query);
         if ($query_run) {
+            sendNotification("New Message","Admin sent you a new message","SELECT * FROM Users WHERE Id != '$receiverId'");
+
             return response("201", "HTTP/1.0 201 Message sent Successfully", "Message sent Successfully");
         } else {
             return response("500", "Internal Server Error", "HTTP/1.0 500 Internal Server Error");
@@ -374,10 +377,16 @@ function likeDisLikeReview($userData)
                 
 
                 
-                if ($reaction == 1)
+                if ($reaction == 1){
                    $message =  "Review Liked Successfully";
-                else
+                   sendNotification("Review Liked","Your review was liked","SELECT * FROM Users WHERE Id != '$userId'");
+
+                }
+                else{
                     $message = "Review DisLiked Successfully";
+                    sendNotification("Review DisLiked","Your review was disliked","SELECT * FROM Users WHERE Id != '$userId'");
+
+                }
                 $data = [
                     'status' => 200,
                     'message' => $message,
@@ -477,10 +486,13 @@ function deleteReview($userData)
         $query_run = $conn->query($reviewExit);
 
         if (mysqli_num_rows($query_run) > 0) {
-
+            $res = mysqli_fetch_assoc($query_run);
+            $userId = $res["UserId"];
             $query = "DELETE FROM `Reviews` WHERE Id = '$id'";
             $query_run = mysqli_query($conn, $query);
             if ($query_run) {
+                sendNotification("Review Deleted","Your review was deleted by admin","SELECT * FROM Users WHERE Id != '$userId'");
+
                 return response("200", "HTTP/1.0 200 Review Deleted Successfully", "Review Deleted Successfully");
             } else {
                 return response("500", "Internal Server Error", "Internal Server Error");
@@ -583,6 +595,64 @@ function getAllMessages($data)
 
 
 
+function sendNotification($title,$message,$query)
+{
+    global $conn;
+    $query_run = mysqli_query($conn, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+      
+        $res = mysqli_fetch_all($query_run, MYSQLI_ASSOC);
+
+       
+        for ($x = 0; $x < count($res); $x++) {
+            $row = $res[$x];
+            $deviceToken = (string)$row["FCMToken"];
+            sendFirebaseNotification($deviceToken,$message,$title);
+        }
+        
+    }
+}
+function sendFirebaseNotification($deviceToken,$message,$title){
+    //API URL of FCM
+    $url = 'https://fcm.googleapis.com/fcm/send';
+    /*api_key available in:
+    Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key*/
+    $api_key = 'AAAA-pw4c6Q:APA91bEcV1eGPKU8NgtTMDkjPwGrQ9OQHMG1Y7XfMEuzrXjWe9M66YxSxEO4Z3NENAGZ6HBDIOKvLXkH5L2IeZTpjwebh3ro3nPuQJflkJyWXBhK2qlgc9lIPAxi0GQl2_7dfR5LYmkD';
+   // $mobile_token = "cDA094MjR6qKgA2c8ap1Hl:APA91bGZyDAWXfHjPPhNUybtlrcN8TZ5yzmNOXEmD_LvkbavXPH7XGJeS_LmL8nz9cM-1fIgYdow8Dy2nbVxAw_FqgloD_XVyPCgxw2X5_qDtzpVWIoZAGosL0MMnPpcuxmF67JiM4ui";
+   // $message = "waqas";
+
+    $fields = array (
+        'registration_ids' => array (
+                $deviceToken
+        ),
+        'data' => array (
+                "message" => $message,
+                "title" => $title,
+                "body" => $message
+        )
+    );
+
+     //header includes Content type and api key
+     $headers = array(
+        'Content-Type:application/json',
+        'Authorization:key='.$api_key
+    );
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+    $result = curl_exec($ch);
+    if ($result === FALSE) {
+        die('FCM Send Error: ' . curl_error($ch));
+    }
+    curl_close($ch);
+   // return $result;
+}
 
 function response($statusCode, $header, $message)
 {
