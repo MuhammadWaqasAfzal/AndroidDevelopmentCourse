@@ -13,7 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.alphaSquared.wifapp.common.Constants
 import com.example.myapplication.R
-import com.example.myapplication.ui.review.ReviewFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
