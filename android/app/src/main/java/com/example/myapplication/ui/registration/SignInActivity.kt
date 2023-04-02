@@ -56,9 +56,9 @@ class SignInActivity : AppCompatActivity() {
         }
 
         btnSignIn!!.setOnClickListener {
-            edEmail?.setText("waqasafzal1313@gmail.com1sa111");
+          //  edEmail?.setText("waqasafzal1313@gmail.com1s");
            // edEmail?.setText("awais@gmail.com");
-            edPassword?.setText("12345678")
+         //   edPassword?.setText("12345678")
             if(isFieldsCorrect() && isInternetConnected(activity)){
                 loader(activity,spinner, true);
                 callApi()
@@ -104,7 +104,8 @@ class SignInActivity : AppCompatActivity() {
             .build()
 
         val api = retrofit.create(MyApi::class.java);
-        var loginData = LoginData(edEmail?.text.toString().trim().toLowerCase(),edPassword?.text.toString());
+        var loginData = LoginData(edEmail?.text.toString().trim().toLowerCase(),edPassword?.text.toString(),
+            getSpObject(activity)?.getString(Constants.FIREBASE_DEVICE_TOKEN," "));
         val call = api.login(loginData)
         call?.enqueue(object : Callback<Login> {
             override fun onResponse(call: Call<Login>, response: Response<Login>) {

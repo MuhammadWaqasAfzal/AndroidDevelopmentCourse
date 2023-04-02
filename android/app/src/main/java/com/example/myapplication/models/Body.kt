@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class LoginData(
     @SerializedName("email") val email: String,
     @SerializedName("password") val password: String?,
+    @SerializedName("deviceToken") val deviceToken: String?,
 )
 
 data class SignUpData(
@@ -15,7 +16,8 @@ data class SignUpData(
     @SerializedName("lastName") val lastName: String?,
     @SerializedName("confirmPassword") val confirmPassword: String?,
     @SerializedName("gender") val gender: Int?,
-    @SerializedName("admin") val admin: Int?
+    @SerializedName("admin") val admin: Int?,
+    @SerializedName("deviceToken") val deviceToken: String?,
 )
 
 data class ResetPassword(

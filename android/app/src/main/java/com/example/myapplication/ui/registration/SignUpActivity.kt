@@ -174,7 +174,7 @@ class SignUpActivity : AppCompatActivity() {
             edFirstName?.text.toString().trim(),
             edLastName?.text.toString().trim(),
             edConfirmPassword?.text.toString(),
-            gender, isAdmin
+            gender, isAdmin, getSpObject(activity)?.getString(Constants.FIREBASE_DEVICE_TOKEN," ")
         );
         val call = api.signUp(data)
         call?.enqueue(object : Callback<Login> {
